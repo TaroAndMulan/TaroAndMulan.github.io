@@ -1,5 +1,4 @@
 import { Server } from "socket.io";
-let dsd
 const SocketHandler = (req, res) => {
   if (res.socket.server.io) {
     console.log("Socket is already running");
