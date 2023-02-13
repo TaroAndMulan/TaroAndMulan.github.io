@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import { Inter } from "@next/font/google";
@@ -14,25 +14,28 @@ import { io } from "socket.io-client";
 let socket;
 
 const inter = Inter({ subsets: ["latin"] });
-const initSocket = async () => { 
+const initSocket = async () => {
   await fetch("api/socket");
-  socket=io();
-  socket.on('heyuser', (msg) => {console.log(msg)})
-  console.log("wtf")
-  
-}
+  socket = io();
+  socket.on("heyuser", (msg) => {
+    console.log(msg);
+  });
+  console.log("wtf");
+};
 
-const SendDog = async(event) => {
-  socket.emit('dog');
+const SendDog = async (event) => {
+  socket.emit("dog");
   console.log("WTF2222");
   event.preventDefault();
 };
 export default function Home() {
-
-  useEffect(()=>{initSocket()},[]);
+  useEffect(() => {
+    initSocket();
+  }, []);
 
   return (
     <main>
+  
       <div>
         <Link href="/materialUI"> Click here to move page</Link>
       </div>
@@ -41,7 +44,7 @@ export default function Home() {
           Name:
           <input type="text" name="name" />
         </label>
-        <div  onClick={SendDog}> asdsd</div>
+        <div onClick={SendDog}> asdsd</div>
       </form>
     </main>
   );
