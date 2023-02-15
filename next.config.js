@@ -9,6 +9,10 @@ const nextConfig = {
         source: '/.well-known/did-configuration.json',
         destination: '/api/.well-known/did-configuration.json',
       },
+      {
+        source: '/.well-known/microsoft-identity-association.json',
+        destination: '/api/.well-known/microsoft-identity-association.json',
+      }
     ]
   },
 }
