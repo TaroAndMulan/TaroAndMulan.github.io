@@ -133,11 +133,7 @@ function App() {
               Form
             </Typography>
             <hr />
-            <ContractForm
-              template={template}
-              stateLift={formUpdate}
-              key={key}
-            />
+        
           </Box>
         </Grid>
         <Grid item xs={5}>
