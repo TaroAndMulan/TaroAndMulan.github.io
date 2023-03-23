@@ -1,10 +1,10 @@
-"use client"
-//import "./App.css";
+'use client'
 import { useEffect, useRef, useState } from "react";
 import { APIClient, Openlaw } from "openlaw";
 import { Templates } from "/utility/templates";
 import ContractForm from "/components/Form";
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
+
 import { address, abi } from "/utility/smartcontract";
 import { sha256 } from "crypto-hash";
 import SendIcon from "@mui/icons-material/Send";
@@ -70,7 +70,6 @@ function App() {
 
 
 
-
   function submitTemplate(e) {
     e.preventDefault();
     setKey(key + 1);
@@ -103,6 +102,7 @@ function App() {
           paddingBottom: "1rem",
         }}
       >
+     
         <span style={{ float: "right" }}>
           ropsten test network :
           {address}
@@ -133,7 +133,11 @@ function App() {
               Form
             </Typography>
             <hr />
-        
+            <ContractForm
+              template={template}
+              stateLift={formUpdate}
+              key={key}
+            />
           </Box>
         </Grid>
         <Grid item xs={5}>
@@ -235,6 +239,7 @@ function App() {
           <Button
             variant="contained"
             color="success"
+            onClick={()=>{}}
           >
             Sign 
           </Button>
