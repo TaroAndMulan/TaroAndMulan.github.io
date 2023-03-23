@@ -10,7 +10,7 @@ const SocketHandler = (req, res) => {
     io.on("connection", (socket) => {
       console.log("user connected rdgdr55");
       socket.on('dog', (msg) => {
-        socket.emit('heyuser', 'hello user')
+        socket.emit('heyuser', 'senddogemitserver')
         console.log("recieve dog");
       });
       socket.on('error', (err) => {
