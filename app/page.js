@@ -18,8 +18,9 @@ const initSocket = async () => {
   await fetch("api/socket");
   socket = io();
   socket.on("heyuser", (msg) => {
-    console.log(msg);
+    console.log(msg+"wttfff");
   });
+  socket.on("hellofromserver", (msg) => {console.log(msg)})
   console.log("wtf");
 };
 

@@ -9,8 +9,12 @@ const SocketHandler = (req, res) => {
 
     io.on("connection", (socket) => {
       console.log("user connected rdgdr55");
+
+      socket.emit("hellofromserver","this is sever")
+
+
       socket.on('dog', (msg) => {
-        socket.emit('heyuser', 'senddogemitserver')
+        socket.broadcast.emit('heyuser', 'server react to dog')
         console.log("recieve dog");
       });
       socket.on('error', (err) => {
