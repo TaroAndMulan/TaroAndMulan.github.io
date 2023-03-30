@@ -4,7 +4,7 @@ import { APIClient, Openlaw } from "openlaw";
 import { Templates } from "/utility/templates";
 import ContractForm from "/components/Form";
 import { ethers } from "ethers";
-
+import Scan from "@/components/scan";
 import { address, abi } from "/utility/smartcontract";
 import { sha256 } from "crypto-hash";
 import SendIcon from "@mui/icons-material/Send";
@@ -26,6 +26,7 @@ import { isValidTemplate } from "/utility/isValid";
 import { Container } from "@mui/system";
 import ToBlockchain from "/components/ToBlockchain";
 import ropsten from "/utility/ropsten.png";
+import Identity from "@/components/Identity";
 const apiClient = new APIClient("https://lib.openlaw.io/api/v1/default");
 
 const style = {
@@ -47,7 +48,12 @@ function App() {
   const [detail, setDetail] = useState();
   const [alert, setAlert] = useState(false);
   const [recipient,setRecipient] = useState("");
+  const [vname,setVName] = useState("dog");
 
+  const liftVname = (x)=>{
+    setVname(x);
+    console.log("update: ", vname)
+  }
 
   const formUpdate = (key, value, validationData) => {
     setFormdata({ ...formData, [key]: value });
@@ -252,6 +258,9 @@ function App() {
           )}
         </Box>
       </Backdrop>
+            <div>{vname}</div>
+            <Scan name={vname} lift={setVName}></Scan>
+            <Identity name={vname} lift={setVName}></Identity>
     </>
   );
           }
