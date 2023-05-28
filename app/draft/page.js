@@ -27,6 +27,7 @@ import { Container } from "@mui/system";
 import ToBlockchain from "/components/ToBlockchain";
 import ropsten from "/utility/ropsten.png";
 import Identity from "@/components/Identity";
+import ShowVc from "@/components/showVC";
 const apiClient = new APIClient("https://lib.openlaw.io/api/v1/default");
 
 const style = {
@@ -115,7 +116,16 @@ function App() {
         </span>
       </nav>
 
+     
+
       <Grid container spacing={5}>
+
+        <Grid item xs={3}>
+              <ShowVc issuer={"iambest"} name={"gun"} ID={"1234"}></ShowVc>
+        </Grid>
+        <Box width="100%"/>
+
+
         <Grid item xs={5}>
           <Box sx={style}>
             <Typography variant="h5" component="h6" textAlign="center">
@@ -133,20 +143,8 @@ function App() {
             />
           </Box>
         </Grid>
-        <Grid item xs={2}>
-          <Box sx={style}>
-            <Typography variant="h5" component="h6" textAlign="center">
-              Form
-            </Typography>
-            <hr />
-            <ContractForm
-              template={template}
-              stateLift={formUpdate}
-              key={key}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={5}>
+
+        <Grid item xs={7}>
           <Box sx={style}>
             <Typography variant="h5" component="h6" textAlign="center">
               Preview

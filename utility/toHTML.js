@@ -1,7 +1,7 @@
 
 
 export function convertTemplateToHTML(template){
-    return template.replaceAll(/\[\[.*?\]\]/ig,'_____');
+    return template.replaceAll(/\[.*?\]/ig,'_____');
 }
 
 /*
