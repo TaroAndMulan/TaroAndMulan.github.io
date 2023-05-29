@@ -1,12 +1,30 @@
 import { useRef, useState } from "react";
 import QRCode from "react-qr-code";
 
+
+const ShowVC = (VC) => {
+    console.log("showVC",VC,"type",typeof(VC));
+    const claims = JSON.parse(VC).claims;
+    const key = Object.keys(claims);
+    const value = Object.values(claims);
+
+    
+    return (
+        key.map((data,index)=>{return <div>{data}:{claims[data]}</div>})
+    )
+
+}
+
+
+
+
 const Scan = ({name,lift}) => {
 
     var respPresentationReq = null;
     const [qrvalue, setQrvalue]  = useState("www.google.com");
     const [msg, setMsg] = useState("msg_init");
     const [payload, setPayload] = useState("payload_init");
+    const [isScan, setIsScan] = useState(0);
     let respMsg="start"
 
  const signin = () => {
@@ -43,15 +61,19 @@ const Scan = ({name,lift}) => {
                                     
                                     if (respMsg.status == 'presentation_verified') {
                                         setMsg(respMsg.message);
-                                        setPayload( "Payload: " + JSON.stringify(respMsg.payload))
-                                        lift(respMsg.firstName +" " + respMsg.lastName +" is a Verifiable Credential Expert") 
-                                        console.log("lifting up:", name)
+                                        const pl = JSON.stringify(respMsg.payload).slice(1,-1);
+                                        setPayload(pl)
+                                        //setPayload(respMsg.payload)
+                                        //lift(respMsg.firstName +" " + respMsg.lastName) 
+                                        //lift(respMsg);
+                                        console.log("scan pl",pl,"typeof",typeof(pl))
+                                        setIsScan(1);
                                         clearInterval(checkStatus);
                                     }
                                     if (respMsg.status == 'issuance_failed') {
                                         document.getElementById('qrcode').style.display = "none";
                                         setMsg("Verification error occurred.");
-                                        setPayload("Payload: " + respMsg.payload)
+                                        setPayload(respMsg.payload)
                                         clearInterval(checkStatus);
                                     }
                                 }
@@ -64,21 +86,23 @@ const Scan = ({name,lift}) => {
  }
 
 
+
  return (
     <>
-    <div onClick={signin}> Click</div>
-    <div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-    <QRCode
-    size={512}
-    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-    value={qrvalue}
-    viewBox={`0 0 256 256`}
-    />
-</div>
-    <div id="qrText">Scan QR Code</div>
-    <div id="message" >"message: " {msg} </div>
-    <div id="payload"> "payload: "{payload}</div>
-    <div id="subject">"subject: "{name}</div>
+    
+    {isScan?(<ShowVC VC={payload}/>
+        
+):(<div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+<div onClick={signin}> Click to scan</div> 
+<QRCode
+size={512}
+style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+value={qrvalue}
+viewBox={`0 0 256 256`}
+/>
+</div>)}
+
  </>)
 }
 export default Scan
+

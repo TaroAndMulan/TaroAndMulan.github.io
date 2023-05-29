@@ -50,7 +50,7 @@ function App() {
   const [alert, setAlert] = useState(false);
   const [recipient,setRecipient] = useState("");
   const [vname,setVName] = useState("dog");
-
+  const [isScan, setIsScan] = useState(0);
   const liftVname = (x)=>{
     setVname(x);
     console.log("update: ", vname)
@@ -121,7 +121,7 @@ function App() {
       <Grid container spacing={5}>
 
         <Grid item xs={3}>
-              <ShowVc issuer={"iambest"} name={"gun"} ID={"1234"}></ShowVc>
+        <Scan lift={setVName}></Scan>
         </Grid>
         <Box width="100%"/>
 
@@ -258,9 +258,11 @@ function App() {
       </Backdrop>
             <div>{vname}</div>
             <Scan name={vname} lift={setVName}></Scan>
-            <Identity name={vname} lift={setVName}></Identity>
     </>
   );
           }
 
 export default App;
+
+
+//            <Identity name={vname} lift={setVName}></Identity>
