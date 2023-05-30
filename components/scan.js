@@ -2,11 +2,12 @@ import { useRef, useState } from "react";
 import QRCode from "react-qr-code";
 
 
-const ShowVC = (VC) => {
+const ShowVC = ({VC}) => {
     console.log("showVC",VC,"type",typeof(VC));
     const claims = JSON.parse(VC).claims;
     const key = Object.keys(claims);
     const value = Object.values(claims);
+
 
     
     return (
