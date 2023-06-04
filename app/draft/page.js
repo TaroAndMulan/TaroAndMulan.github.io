@@ -51,6 +51,19 @@ function App() {
   const [recipient,setRecipient] = useState("");
   const [vname,setVName] = useState("dog");
   const [isScan, setIsScan] = useState(0);
+  const [vcdata,setVcdata]=useState([])
+  const [vclist,setVclist]=useState([])
+  const liftPayload = (x)=>{
+    let temppay = []
+    const claims = JSON.parse(x).claims;
+    for (const [key, value] of Object.entries(claims))
+    {temppay.push(value)}
+    setVcdata(temppay);
+    let temppay2=[]
+    for (const [key, value] of Object.entries(claims))
+    {temppay2.push(key)}
+    setVclist(temppay2);
+  }
   const liftVname = (x)=>{
     setVname(x);
     console.log("update: ", vname)
@@ -83,11 +96,10 @@ function App() {
     setFormdata({});
     setAlert(false);
     if (isValidTemplate(textfieldRef.current.value))
-      setTemplate(textfieldRef.current.value);
+      {setTemplate(textfieldRef.current.value);}
+
     else
-      alert(
-        "INVALID TEMPLATE , need 2 square bracket for the Field you want, for example [[Price]]"
-      );
+      console.log("invalid template")
   }
 
   function downloadPDF(e) {
@@ -119,12 +131,13 @@ function App() {
      
 
       <Grid container spacing={5}>
-
+        {/*------------QR code--------*/} 
         <Grid item xs={3}>
-        <Scan lift={setVName}></Scan>
+        <Scan payloadLift={liftPayload}></Scan>
         </Grid>
         <Box width="100%"/>
 
+        {/*------------EDITABLE TEMPLATE--------*/} 
 
         <Grid item xs={5}>
           <Box sx={style}>
@@ -144,6 +157,9 @@ function App() {
           </Box>
         </Grid>
 
+
+        {/*PREVIEW*/} 
+
         <Grid item xs={7}>
           <Box sx={style}>
             <Typography variant="h5" component="h6" textAlign="center">
@@ -162,6 +178,9 @@ function App() {
           </Box>
         </Grid>
       </Grid>
+
+
+        {/*BACKDROP*/} 
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -256,8 +275,9 @@ function App() {
           )}
         </Box>
       </Backdrop>
-            <div>{vname}</div>
-            <Scan name={vname} lift={setVName}></Scan>
+              {/*------------END--------*/} 
+              <button onClick={()=>{console.log(vclist);console.log(vcdata)}}></button>
+
     </>
   );
           }

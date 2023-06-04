@@ -1,5 +1,6 @@
  export function isValidTemplate(s) {
   var state = 0;
+  return true
   for (let i = 0; i < s.length; i++) {
 
     

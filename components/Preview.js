@@ -4,51 +4,104 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { convertTemplateToHTML } from "../utility/toHTML";
 import {extractTextInParenthesis} from "../utility/parseform";
 import { Box, Card, TextField } from "@mui/material";
-import { Grid,Button} from "@mui/material";
-import { output } from "@/next.config";
+import { Grid,Button,Select} from "@mui/material";
+import { output ,FormControl,InputLabel} from "@/next.config";
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
+import customVfs from '../utility/vfs_fonts'
 
 
 
 
 const Preview = ({ template}) => {
 
+  const VC = ["dog","cat","human"]
+  console.log(`update template ${template}`)
   const formtitle= extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title)=> {return ' '})
 
   const [formdata, setFormdata] = useState(tempformdata);
   const [preview,setPreview] = useState(template);
-
+  console.log(`preview ${preview}`)
   function fillcontract(){
     let outputString = template;
     const regex = '/\[(.*?)\]/g';
 
+
     for(let i=0;i<formtitle.length;i++){
-    outputString=outputString.replace(/\[(.*?)\]/,"<span style=\"color:red\">"+"<b>"+formdata[i]+"</b>"+"</span>",1)
+  
+      if(formtitle[i].charAt(formtitle[i].length-1)=="C"){
+        console.log("found")
+        outputString=outputString.replace(/\[(.*?)\]/,"<span style=\"color:green\">"+formdata[i]+"</span>",1)
+      }
+      else
+      outputString=outputString.replace(/\[(.*?)\]/,"<span style=\"color:red\">"+formdata[i]+"</span>",1)
     }
+  
+
     outputString = outputString.replace(/\n/g,"<br/>");
     const regex2 = '/\*\*(.*)\*\*/g';
-    console.log(outputString)
     outputString=outputString.replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>")
-    console.log("after"+outputString)
     setPreview(outputString);
   
   }
-  useEffect(() => {fillcontract()},[formdata]);
+
+  function printDocument() {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+    pdfMake.fonts={
+      Roboto2: {
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-MediumItalic.ttf'
+      },
+      THSarabunNew: {
+        normal: 'THSarabunNew.ttf',
+        bold: 'THSarabunNew-Bold.ttf',
+        italics: 'THSarabunNew-Italic.ttf',
+        bolditalics: 'THSarabunNew-BoldItalic.ttf'
+      }
+    }
+    console.log("wtf")
+    const doc = new jsPDF();
+    //get table html
+    const pdfTable = document.getElementById('wtf2');
+    console.log(pdfTable)
+    //html to pdf format
+    var html = htmlToPdfmake(`<pre>${preview}</pre>`);
+  
+    const documentDefinition = { content: html,defaultStyle:{font:"THSarabunNew"} };
+    pdfMake.createPdf(documentDefinition).open();
+  
+  }
+
+
+  useEffect(() => {fillcontract()},[formdata,template]);
+
+
 
 
   return (
     <>
+    <div  onClick={printDocument}>sdasadsad</div>
+    <Button onClick={()=>{console.log("lcick")}}>testset</Button>
     <Grid container spacing={2}>
   <Grid item xs={2}>
     {formtitle.map((title,index)=> {
-            return  (<> <TextField fullWidth  margin="normal" key={index}
+
+              if(title.slice(-2)!="VC")
+              return (<> <TextField fullWidth  margin="normal" key={index}
               id="outlined-controlled"
               label={title}
               value={formdata[index]}
               onChange={(event) => {
                 const tempformdata = formdata.map((data,ii)=>
                 {
-                  console.log(data);
                   if(ii===index) 
                   return event.target.value; 
                   else 
@@ -58,19 +111,49 @@ const Preview = ({ template}) => {
               }}
               /> 
                 </>)
+            else {
+              return ( <> 
+              
+              <TextField
+          id="outlined-select-currency"
+          select
+          onChange={(event) => {
+            const tempformdata = formdata.map((data,ii)=>
+            {
+              if(ii===index) 
+              return event.target.value; 
+              else 
+              return data;
+            })
+            setFormdata(tempformdata);
+          }}
+          label="Select"
+          defaultValue={formdata[index]}
+          helperText="Please select your currency"
+        >
+       {VC.map((option,index) => (
+            <MenuItem key={index} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+
+</>
+  )
+            }
+             
       })}
   </Grid>
 
   <Grid item xs={10}>
   <div
       dangerouslySetInnerHTML={{__html: preview}}
+      id="wtf"
     />
+    <div id="wtf2"> <pre>wtf<span>sadsad</span><strong>bbbb</strong>linebreak<br/>wtf<span>wtf</span></pre> </div>
   </Grid>
 </Grid>
 
-<div
-      dangerouslySetInnerHTML={{__html: preview}}
-    />
       
     </>
   );

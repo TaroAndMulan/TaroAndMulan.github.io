@@ -19,7 +19,7 @@ const ShowVC = ({VC}) => {
 
 
 
-const Scan = ({name,lift}) => {
+const Scan = ({name,payloadLift}) => {
 
     var respPresentationReq = null;
     const [qrvalue, setQrvalue]  = useState("www.google.com");
@@ -64,9 +64,11 @@ const Scan = ({name,lift}) => {
                                         setMsg(respMsg.message);
                                         const pl = JSON.stringify(respMsg.payload).slice(1,-1);
                                         setPayload(pl)
+                                        payloadLift(pl)
                                         //setPayload(respMsg.payload)
                                         //lift(respMsg.firstName +" " + respMsg.lastName) 
                                         //lift(respMsg);
+                                        
                                         console.log("scan pl",pl,"typeof",typeof(pl))
                                         setIsScan(1);
                                         clearInterval(checkStatus);
