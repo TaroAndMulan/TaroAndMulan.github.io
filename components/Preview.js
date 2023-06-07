@@ -48,15 +48,8 @@ const Preview = ({ template,VC,VCN}) => {
   }
 
   function printDocument() {
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
+    pdfMake.vfs = customVfs.pdfMake.vfs; 
     pdfMake.fonts={
-      Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-MediumItalic.ttf'
-      },
       THSarabunNew: {
         normal: 'THSarabunNew.ttf',
         bold: 'THSarabunNew-Bold.ttf',
@@ -64,17 +57,9 @@ const Preview = ({ template,VC,VCN}) => {
         bolditalics: 'THSarabunNew-BoldItalic.ttf'
       }
     }
-    console.log("wtfinprint")
-    const doc = new jsPDF();
-    //get table html
-    const pdfTable = document.getElementById('wtf2');
-    console.log("pdfTable",pdfTable)
-    //html to pdf format
+
     var html = htmlToPdfmake(`<pre>${preview}</pre>`);
-    console.log("preview:",preview)
-    console.log("wtf")
-    const documentDefinition = { content: "wtf",defaultStyle:{font:"THSarabunNew"} };
-    console.log(documentDefinition)
+    const documentDefinition = { content: html,defaultStyle:{font:"THSarabunNew"} };
     pdfMake.createPdf(documentDefinition).open();
   
   }
@@ -149,7 +134,6 @@ const Preview = ({ template,VC,VCN}) => {
       dangerouslySetInnerHTML={{__html: preview}}
       id="wtf"
     />
-        <div id="wtf2"> <pre>wtf<span>sadsad</span><strong>bbbb</strong>linebreak<br/>wtf<span>wtf</span></pre> </div>
 
   </Grid>
 </Grid>
