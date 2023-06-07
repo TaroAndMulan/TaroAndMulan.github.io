@@ -4,13 +4,9 @@ import { Button } from "@mui/material";
 import { useState } from "react";
 import { generateKeyPair, sign, verify } from '@decentralized-identity/ion-tools';
 
-import { async } from "openlaw-elements";
 import { Upload } from "@mui/icons-material";
+//const fs = require('fs');
 
-
-const test2 = () => {
-    console.log("wtf3")
-}
 
 function Verify() {
 
@@ -24,6 +20,19 @@ function Verify() {
     function handlefilechange(e){
         setPdf(e.target.files[0]);
         setReady(1)
+    }
+
+    async function grabkey(){
+      let ionOps;
+      await fs.readFile('../../private/ion-did-ops-v1.json', { encoding: 'utf8' })
+        .then((data) => {
+          ionOps = JSON.parse(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          process.exit(1);
+        });
+        console.log(ionOps)
     }
 
     function handlejwschange(e){
@@ -163,6 +172,7 @@ console.log('readFile called');
         <Button onClick={downloadjws}> check verify</Button>
         <Upload></Upload>
         <Button onClick={verifyContract}>testV</Button>
+        <Button onClick={grabkey}>Grab key</Button>
         </>)
 }
 
