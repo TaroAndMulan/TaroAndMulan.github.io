@@ -17,16 +17,13 @@ import customVfs from '../utility/vfs_fonts'
 
 
 
-const Preview = ({ template}) => {
+const Preview = ({ template,VC,VCN}) => {
 
-  const VC = ["dog","cat","human"]
-  console.log(`update template ${template}`)
   const formtitle= extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title)=> {return ' '})
 
   const [formdata, setFormdata] = useState(tempformdata);
   const [preview,setPreview] = useState(template);
-  console.log(`preview ${preview}`)
   function fillcontract(){
     let outputString = template;
     const regex = '/\[(.*?)\]/g';
@@ -133,7 +130,7 @@ const Preview = ({ template}) => {
         >
        {VC.map((option,index) => (
             <MenuItem key={index} value={option}>
-              {option}
+              {VCN[index]}:{option}
             </MenuItem>
           ))}
         </TextField>
@@ -150,7 +147,6 @@ const Preview = ({ template}) => {
       dangerouslySetInnerHTML={{__html: preview}}
       id="wtf"
     />
-    <div id="wtf2"> <pre>wtf<span>sadsad</span><strong>bbbb</strong>linebreak<br/>wtf<span>wtf</span></pre> </div>
   </Grid>
 </Grid>
 

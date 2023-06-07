@@ -1,0 +1,23 @@
+did:ion:EiB8mgK4zTZihVp3qNTVeCClXyrOc9B93Vcanck2igJoyg
+
+PS C:\Users\GunUl\Desktop\react\testsign\testsign> node sign.js
+Getting challenge from: https://beta.ion.msidentity.com/api/v1.0/proof-of-work-challenge
+{
+  challengeNonce: 'a2de1180b54f50106eceda59d48c5030c397c63fa90467574921abfa6d15251d',
+  validDurationInMinutes: 10,
+  largestAllowedHash: '0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+}
+Solving for body:
+{"type":"create","suffixData":{"deltaHash":"EiALYDPWMGUNLnmlldrRR9UzIlFMX2GAmPi6I61urulauw","recoveryCommitment":"EiAqvbQwWbxuNt8bCAUjTGLR6coaSwK4rew81xPEcrBg1g"},"delta":{"updateCommitment":"EiCv1neznutVlher8AVZzoC7xa81njfW4F8cb3yi7Iu2Lg","patches":[{"action":"replace","document":{"publicKeys":[{"id":"key-1","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"S75JyXBxgNk2u5uk8iEZEAtaWwljAFbYfSbCMAQBGIc","y":"ePcID8g2OZhQK0HY9jBU0mk_p8ioBVA8-ouF3zu2opY"},"purposes":["authentication"]}],"services":[{"id":"logo","type":"photo","serviceEndpoint":"https://imgur.com/a/yjkaNov"},{"id":"WebApplication","type":"linked","serviceEndpoint":"https://www.laknainam.works/"},{"id":"ChulaMasterThesisVCsignAcc","type":"linked","serviceEndpoint":"contactme@gmail.com"}]}}]}}
+9eb92e4d580273f1b23182b48355cd001396113181092f46000f6a615502ada0
+0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+3b4bb311d37fd87266bce4129fb547dd5c5cad4e4e6b4caa1bfc4759079fd5a5
+0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+bc1c4c66328d07663367c5d15853fde92dcbe9c6e7e4d6dc3d3648f738d82e0e
+0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+e00af1773b953270f67481e3b7aaf4149215b463c877de7458e642efebc20fd5
+0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ca042d24dcc73fa750e61cd36383a7f72a871e20f8836fb64f57cc5abcdf36a2
+0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+Successful registration
+{"@context":"https://w3id.org/did-resolution/v1","didDocument":{"id":"did:ion:EiB8mgK4zTZihVp3qNTVeCClXyrOc9B93Vcanck2igJoyg","@context":["https://www.w3.org/ns/did/v1",{"@base":"did:ion:EiB8mgK4zTZihVp3qNTVeCClXyrOc9B93Vcanck2igJoyg"}],"service":[{"id":"#logo","type":"photo","serviceEndpoint":"https://imgur.com/a/yjkaNov"},{"id":"#WebApplication","type":"linked","serviceEndpoint":"https://www.laknainam.works/"},{"id":"#ChulaMasterThesisVCsignAcc","type":"linked","serviceEndpoint":"contactme@gmail.com"}],"verificationMethod":[{"id":"#key-1","controller":"did:ion:EiB8mgK4zTZihVp3qNTVeCClXyrOc9B93Vcanck2igJoyg","type":"EcdsaSecp256k1VerificationKey2019","publicKeyJwk":{"kty":"EC","crv":"secp256k1","x":"S75JyXBxgNk2u5uk8iEZEAtaWwljAFbYfSbCMAQBGIc","y":"ePcID8g2OZhQK0HY9jBU0mk_p8ioBVA8-ouF3zu2opY"}}],"authentication":["#key-1"]},"didDocumentMetadata":{"method":{"published":false,"recoveryCommitment":"EiAqvbQwWbxuNt8bCAUjTGLR6coaSwK4rew81xPEcrBg1g","updateCommitment":"EiCv1neznutVlher8AVZzoC7xa81njfW4F8cb3yi7Iu2Lg"},"canonicalId":"did:ion:EiB8mgK4zTZihVp3qNTVeCClXyrOc9B93Vcanck2igJoyg"}}

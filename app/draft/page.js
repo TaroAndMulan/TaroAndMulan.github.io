@@ -167,7 +167,7 @@ function App() {
             </Typography>{" "}
             <button onClick={downloadPDF}> Download PDF</button>
             <hr />
-            <Preview template={template} formData={formData} />
+            <Preview template={template} formData={formData} VC={vcdata} VCN={vclist}/>
             <Button
               variant="contained"
               endIcon={<SendIcon />}
