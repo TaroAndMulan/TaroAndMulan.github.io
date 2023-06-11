@@ -15,8 +15,31 @@ import htmlToPdfmake from "html-to-pdfmake";
 import customVfs from "../utility/vfs_fonts";
 import SendIcon from "@mui/icons-material/Send";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import { sha256 } from "crypto-hash";
+
+import {
+  generateKeyPair,
+  sign,
+  verify,
+} from "@decentralized-identity/ion-tools";
+
+const publicJwk = {
+  kty: "EC",
+  crv: "secp256k1",
+  x: "Wf8DkYrAONM6EXrwPSW6XuVQhKZE7hIYMc29nQAP5YY",
+  y: "NimerdnbjT5vImV1QXcj72Ut0XOJAFtm0ANrvvUIKH4",
+};
+
+const privateJwk = {
+  kty: "EC",
+  crv: "secp256k1",
+  x: "Wf8DkYrAONM6EXrwPSW6XuVQhKZE7hIYMc29nQAP5YY",
+  y: "NimerdnbjT5vImV1QXcj72Ut0XOJAFtm0ANrvvUIKH4",
+  d: "EejP6XsGFZzIOGSgbbIUK1WloScvYL5Kxlbj5PvpzeI",
+};
 
 const Preview = ({ template, VC, VCN }) => {
+  const [cow, setCow] = useState();
   const formtitle = extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title) => {
     return " ";
@@ -29,9 +52,8 @@ const Preview = ({ template, VC, VCN }) => {
     const regex = "/[(.*?)]/g";
 
     for (let i = 0; i < formtitle.length; i++) {
-      let filled = (formdata[i].length>1)?formdata[i]:"______"
+      let filled = formdata[i].length > 1 ? formdata[i] : "______";
       if (formtitle[i].charAt(formtitle[i].length - 1) == "C") {
-        
         outputString = outputString.replace(
           /\[(.*?)\]/,
           '<span style="color:green">' + filled + "</span>",
@@ -48,12 +70,16 @@ const Preview = ({ template, VC, VCN }) => {
     outputString = outputString.replace(/\n/g, "<br/>");
     const regex2 = "/**(.*)**/g";
     outputString = outputString.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
-    console.log(outputString)
-    outputString = outputString+`<br/> <span> signed by VCsignThesis </span> <br/> <span> did:ion:EiAmFosP8PQIpI4PftKVt5fZaC_gbcNg8xM6nDAQf4I4FA </span>`
+    console.log(outputString);
+    outputString =
+      outputString +
+      `<br/> <span> signed by VCsignThesis </span> <br/> <span> did:ion:EiAmFosP8PQIpI4PftKVt5fZaC_gbcNg8xM6nDAQf4I4FA </span>`;
     setPreview(outputString);
   }
 
-  function printDocument() {
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+  async function printDocument() {
     pdfMake.vfs = customVfs.pdfMake.vfs;
     pdfMake.fonts = {
       THSarabunNew: {
@@ -68,10 +94,40 @@ const Preview = ({ template, VC, VCN }) => {
     const documentDefinition = {
       content: html,
       defaultStyle: { font: "THSarabunNew" },
-      watermark: { text: 'SIGNED --- did:ion:EiAmFosP8PQIpI4PftKVt5fZaC_gbcNg8xM6nDAQf4I4FA', color: 'blue', opacity: 0.3, bold: true, italics: false },
-
+      watermark: {
+        text: "SIGNED --- did:ion:EiAmFosP8PQIpI4PftKVt5fZaC_gbcNg8xM6nDAQf4I4FA",
+        color: "blue",
+        opacity: 0.3,
+        bold: true,
+        italics: false,
+      },
     };
-    pdfMake.createPdf(documentDefinition).open();
+    //pdfMake.createPdf(documentDefinition).open();
+    const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+    //let dog;
+    pdfDocGenerator.download();
+    pdfDocGenerator.getBuffer((buffer) => {
+      console.log("check this shit")
+      console.log(buffer)
+      console.log(sha256(buffer))
+    });
+    let payloadtosign;
+    pdfDocGenerator.getBase64((b) => {
+      payloadtosign = b.slice(0, -150);
+      //console.log("cat");
+      //console.log(cat);
+    });
+
+    await delay(10000);
+    let jws = await sign({ payload: payloadtosign, privateJwk });
+
+    const fileData = JSON.stringify(jws);
+    const blob = new Blob([fileData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "jws";
+    link.href = url;
+    link.click();
   }
 
   useEffect(() => {
@@ -109,7 +165,7 @@ const Preview = ({ template, VC, VCN }) => {
               return (
                 <>
                   <TextField
-                  fullWidth
+                    fullWidth
                     id="outlined-select-currency"
                     select
                     onChange={(event) => {
@@ -133,8 +189,13 @@ const Preview = ({ template, VC, VCN }) => {
               );
             }
           })}
-                  <Button variant="contained"  endIcon={<EditNoteIcon/>} onClick={printDocument}>SIGN</Button>
-
+          <Button
+            variant="contained"
+            endIcon={<EditNoteIcon />}
+            onClick={printDocument}
+          >
+            SIGN
+          </Button>
         </Grid>
 
         <Grid item xs={9}>

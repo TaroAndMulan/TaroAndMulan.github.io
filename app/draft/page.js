@@ -61,6 +61,8 @@ function App() {
   const [vclist, setVclist] = useState([]);
   const [vcdata2, setVcdata2] = useState([]);
   const [vclist2, setVclist2] = useState([]);
+
+
   const liftPayload = (x) => {
     let temppay = [];
     const claims = JSON.parse(x).claims;
@@ -158,9 +160,9 @@ function App() {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              textAlign="center"
+              align="center"
             >
-              <Typography flexGrow={1}  sx={{fontWeight: 'bold'}} textAlign="center">
+              <Typography flexGrow={1}  sx={{fontWeight: 'bold'}} align="center">
                 SCAN VC{" "}
               </Typography>
             </AccordionSummary>
@@ -187,9 +189,8 @@ function App() {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              textAlign="center"
             >
-              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} textAlign="center">
+              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} align="center">
                 DRAFT{" "}
               </Typography>
             </AccordionSummary>
@@ -222,9 +223,9 @@ function App() {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              textAlign="center"
+              
             >
-              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} textAlign="center">
+              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} align="center">
                 Sign {" "}
               </Typography>
             </AccordionSummary>
