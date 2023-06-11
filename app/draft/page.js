@@ -1,4 +1,5 @@
-'use client'
+"use client";
+import Link from 'next/link'
 import { useEffect, useRef, useState } from "react";
 import { APIClient, Openlaw } from "openlaw";
 import { Templates } from "/utility/templates";
@@ -8,6 +9,7 @@ import Scan from "@/components/scan";
 import { address, abi } from "/utility/smartcontract";
 import { sha256 } from "crypto-hash";
 import SendIcon from "@mui/icons-material/Send";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Grid,
@@ -19,6 +21,10 @@ import {
   CircularProgress,
   Backdrop,
   Button,
+  Card,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Preview from "/components/Preview";
 import { convertTemplateToHTML } from "/utility/toHTML";
@@ -36,7 +42,7 @@ const style = {
 };
 
 function App() {
-  const [template, setTemplate] = useState(Templates[0].txt);
+  const [template, setTemplate] = useState(Templates[1].txt);
   const [formData, setFormdata] = useState({});
   const [key, setKey] = useState(0);
   const textfieldRef = useRef();
@@ -48,26 +54,45 @@ function App() {
   const [hashed, setHashed] = useState();
   const [detail, setDetail] = useState();
   const [alert, setAlert] = useState(false);
-  const [recipient,setRecipient] = useState("");
-  const [vname,setVName] = useState("dog");
+  const [recipient, setRecipient] = useState("");
+  const [vname, setVName] = useState("dog");
   const [isScan, setIsScan] = useState(0);
-  const [vcdata,setVcdata]=useState([])
-  const [vclist,setVclist]=useState([])
-  const liftPayload = (x)=>{
-    let temppay = []
+  const [vcdata, setVcdata] = useState([]);
+  const [vclist, setVclist] = useState([]);
+  const [vcdata2, setVcdata2] = useState([]);
+  const [vclist2, setVclist2] = useState([]);
+  const liftPayload = (x) => {
+    let temppay = [];
     const claims = JSON.parse(x).claims;
-    for (const [key, value] of Object.entries(claims))
-    {temppay.push(value)}
+    for (const [key, value] of Object.entries(claims)) {
+      temppay.push(value);
+    }
     setVcdata(temppay);
-    let temppay2=[]
-    for (const [key, value] of Object.entries(claims))
-    {temppay2.push(key)}
+    let temppay2 = [];
+    for (const [key, value] of Object.entries(claims)) {
+      temppay2.push(key);
+    }
     setVclist(temppay2);
-  }
-  const liftVname = (x)=>{
+  };
+
+  const liftPayload2 = (x) => {
+    let temppay = [];
+    const claims = JSON.parse(x).claims;
+    for (const [key, value] of Object.entries(claims)) {
+      temppay.push(value);
+    }
+    setVcdata2(temppay);
+    let temppay2 = [];
+    for (const [key, value] of Object.entries(claims)) {
+      temppay2.push(key);
+    }
+    setVclist2(temppay2);
+  };
+
+  const liftVname = (x) => {
     setVname(x);
-    console.log("update: ", vname)
-  }
+    console.log("update: ", vname);
+  };
 
   const formUpdate = (key, value, validationData) => {
     setFormdata({ ...formData, [key]: value });
@@ -88,18 +113,14 @@ function App() {
     setPopup(true);
   };
 
-
-
   function submitTemplate(e) {
     e.preventDefault();
     setKey(key + 1);
     setFormdata({});
     setAlert(false);
-    if (isValidTemplate(textfieldRef.current.value))
-      {setTemplate(textfieldRef.current.value);}
-
-    else
-      console.log("invalid template")
+    if (isValidTemplate(textfieldRef.current.value)) {
+      setTemplate(textfieldRef.current.value);
+    } else console.log("invalid template");
   }
 
   function downloadPDF(e) {
@@ -121,66 +142,114 @@ function App() {
           paddingBottom: "1rem",
         }}
       >
-     
-        <span style={{ float: "right" }}>
-          ropsten test network :
-          {address}
-        </span>
+       <Link href="/lobby">lobby</Link>
+        <Link href="/verify">verify contract</Link>
+        <span style={{ float: "right" }}>ropsten test network :{address}</span>
       </nav>
 
-     
-
       <Grid container spacing={5}>
-        {/*------------QR code--------*/} 
-        <Grid item xs={3}>
-        <Scan payloadLift={liftPayload}></Scan>
-        </Grid>
-        <Box width="100%"/>
-
-        {/*------------EDITABLE TEMPLATE--------*/} 
-
-        <Grid item xs={5}>
-          <Box sx={style}>
-            <Typography variant="h5" component="h6" textAlign="center">
-              Editable Template
-            </Typography>
-            <button onClick={submitTemplate}> Generate new template. </button>{" "}
-            <hr />
-            <TextField
-              id="standard-multiline-static"
-              multiline
-              fullWidth
-              defaultValue={template}
-              variant="standard"
-              inputRef={textfieldRef}
-            />
-          </Box>
-        </Grid>
-
-
-        {/*PREVIEW*/} 
-
-        <Grid item xs={7}>
-          <Box sx={style}>
-            <Typography variant="h5" component="h6" textAlign="center">
-              Preview
-            </Typography>{" "}
-            <button onClick={downloadPDF}> Download PDF</button>
-            <hr />
-            <Preview template={template} formData={formData} VC={vcdata} VCN={vclist}/>
-            <Button
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={() => setPopup(true)}
+        {/*------------QR code--------*/}
+        <Grid item xs={12}>
+          <Accordion>
+            <AccordionSummary
+              sx={{
+                border: "5px solid",
+              }}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              textAlign="center"
             >
-              Send to Blockchain
-            </Button>
-          </Box>
+              <Typography flexGrow={1}  sx={{fontWeight: 'bold'}} textAlign="center">
+                SCAN VC{" "}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Scan payloadLift={liftPayload}></Scan>
+                </Grid>
+                <Grid item xs={4}>
+                </Grid>
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+
+        {/*------------EDITABLE TEMPLATE--------*/}
+
+        <Grid item xs={12}>
+          <Accordion>
+            <AccordionSummary
+              sx={{
+                border: "5px solid",
+              }}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              textAlign="center"
+            >
+              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} textAlign="center">
+                DRAFT{" "}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box sx={style}>
+                <TextField
+                  id="standard-multiline-static"
+                  multiline
+                  fullWidth
+                  defaultValue={template}
+                  variant="standard"
+                  inputRef={textfieldRef}
+                />
+                <Button color="success" onClick={submitTemplate}>
+                  Generate new template.
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+
+        {/*PREVIEW*/}
+
+        <Grid item xs={12}>
+          <Accordion>
+            <AccordionSummary
+              sx={{
+                border: "5px solid",
+              }}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              textAlign="center"
+            >
+              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} textAlign="center">
+                Sign {" "}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box sx={style}>
+                <Preview
+                  template={template}
+                  formData={formData}
+                  VC={vcdata}
+                  VCN={vclist}
+                />
+                <Button
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  onClick={() => setPopup(true)}
+                >
+                  Send to Blockchain
+                </Button>
+              </Box>
+            </AccordionDetails>
+          </Accordion>
         </Grid>
       </Grid>
 
-
-        {/*BACKDROP*/} 
+      {/*BACKDROP*/}
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -232,20 +301,23 @@ function App() {
             variant="filled"
             onChange={(e) => setDetail(e.target.value)}
           />
-<br/> <br/>
-<Typography
+          <br /> <br />
+          <Typography
             variant="subtitle2"
             component="h6"
             textAlign="center"
             color="#6b6b61"
           >
-            Recipient address 
+            Recipient address
           </Typography>
           <br />
           <TextField
             sx={{ width: 0.5 }}
             variant="filled"
-            onChange={(e) => {setRecipient(e.target.value); console.log(recipient)}}
+            onChange={(e) => {
+              setRecipient(e.target.value);
+              console.log(recipient);
+            }}
           />
           <br />
           <br /> <br />
@@ -259,12 +331,8 @@ function App() {
             Before you sign, set your metamask to Ropsten test network and
             please make sure that you have some Ether
           </Typography>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={()=>{}}
-          >
-            Sign 
+          <Button variant="contained" color="success" onClick={() => {}}>
+            Sign
           </Button>
           <br />
           {alert && (
@@ -275,14 +343,17 @@ function App() {
           )}
         </Box>
       </Backdrop>
-              {/*------------END--------*/} 
-              <button onClick={()=>{console.log(vclist);console.log(vcdata)}}></button>
-
+      {/*------------END--------*/}
+      <button
+        onClick={() => {
+          console.log(vclist);
+          console.log(vcdata);
+        }}
+      ></button>
     </>
   );
-          }
+}
 
 export default App;
-
 
 //            <Identity name={vname} lift={setVName}></Identity>

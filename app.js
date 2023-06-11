@@ -204,11 +204,13 @@ app.get("/echo",
     }
 );
 
+
 // Serve index.html as the home page
-app.get('/', function (req, res) { 
+app.get('/idp', function (req, res) { 
   requestTrace( req );
   res.sendFile('public/index.html', {root: __dirname})
 })
+
 
 
 
