@@ -107,9 +107,9 @@ const Preview = ({ template, VC, VCN }) => {
     //let dog;
     pdfDocGenerator.download();
     pdfDocGenerator.getBuffer((buffer) => {
-      console.log("check this shit")
-      console.log(buffer)
-      console.log(sha256(buffer))
+      console.log("check this shit");
+      console.log(buffer);
+      console.log(sha256(buffer));
     });
     let payloadtosign;
     pdfDocGenerator.getBase64((b) => {
@@ -136,8 +136,8 @@ const Preview = ({ template, VC, VCN }) => {
 
   return (
     <>
-      <hr />
-      <Grid container spacing={2}>
+      
+      <Grid container spacing={5}>
         <Grid item xs={3}>
           {formtitle.map((title, index) => {
             if (title.slice(-2) != "VC")
@@ -189,6 +189,12 @@ const Preview = ({ template, VC, VCN }) => {
               );
             }
           })}
+        </Grid>
+
+        <Grid item xs={9}>
+          <div dangerouslySetInnerHTML={{ __html: preview }} id="wtf" />
+        </Grid>
+        <Grid item xs={12} align="center">
           <Button
             variant="contained"
             endIcon={<EditNoteIcon />}
@@ -198,8 +204,10 @@ const Preview = ({ template, VC, VCN }) => {
           </Button>
         </Grid>
 
-        <Grid item xs={9}>
-          <div dangerouslySetInnerHTML={{ __html: preview }} id="wtf" />
+        <Grid item xs={12} align="center">
+          <Button variant="contained" endIcon={<SendIcon />}>
+            SET UP AUTOMATE PAYMENT WITH SMART CONTRACT
+          </Button>
         </Grid>
       </Grid>
     </>

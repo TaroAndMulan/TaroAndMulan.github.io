@@ -1,5 +1,6 @@
 import { Box, Button, Typography,Card } from "@mui/material";
 import { useRef, useState } from "react";
+import CheckIcon from "@mui/icons-material/Check";
 import QRCode from "react-qr-code";
 const ShowVC = ({ VC }) => {
   console.log("showVC", VC, "type", typeof VC);
@@ -7,13 +8,25 @@ const ShowVC = ({ VC }) => {
   const key = Object.keys(claims);
   const value = Object.values(claims);
 
-  return key.map((data, index) => {
+  return (<>
+  <Box>
+  <Card>Issued by: LAKNAINAM for IAMBEST2023</Card>
+  {
+  key.map((data, index) => {
     return (
       <Card> 
         {data}:{claims[data]}
       </Card>
-    );
-  });
+    )
+  })
+  }
+  </Box>
+  <Typography color="success.main"><CheckIcon style={{ color: "green" }} />valid verifiable credentials</Typography>
+
+  
+  
+  </>)
+
 };
 
 const Scan = ({ name, payloadLift }) => {

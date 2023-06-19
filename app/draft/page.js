@@ -11,6 +11,7 @@ import { sha256 } from "crypto-hash";
 import SendIcon from "@mui/icons-material/Send";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {
   Grid,
   TextField,
@@ -34,6 +35,9 @@ import ToBlockchain from "/components/ToBlockchain";
 import ropsten from "/utility/ropsten.png";
 import Identity from "@/components/Identity";
 import ShowVc from "@/components/showVC";
+import DrawIcon from '@mui/icons-material/Draw';
+import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
 const apiClient = new APIClient("https://lib.openlaw.io/api/v1/default");
 
 const style = {
@@ -144,9 +148,12 @@ function App() {
           paddingBottom: "1rem",
         }}
       >
-       <Link href="/lobby">lobby</Link>
-        <Link href="/verify">verify contract</Link>
-        <span style={{ float: "right" }}>ropsten test network :{address}</span>
+
+  <span style={{ float: "right" }}><Link href="/verify" underline="none"><HomeWorkIcon/></Link> </span>
+  <span style={{ float: "right" }}><Link href="/verify" underline="none"><CheckCircleIcon/></Link></span>
+        <span style={{ float: "right" }}><Link href="/verify" underline="none"><DrawIcon></DrawIcon></Link>
+</span>
+<br/>
       </nav>
 
       <Grid container spacing={5}>
@@ -163,15 +170,22 @@ function App() {
               align="center"
             >
               <Typography flexGrow={1}  sx={{fontWeight: 'bold'}} align="center">
-                SCAN VC{" "}
+                USER AUTHENTICATION{" "}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Grid container spacing={2}>
-                <Grid item xs={4}>
+              <Grid container spacing={4}>
+                <Grid item xs={3}>
                   <Scan payloadLift={liftPayload}></Scan>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
+                <Scan/>
+                </Grid>
+                <Grid item xs={3}>
+                <Scan/>
+                </Grid>
+                <Grid item xs={3}>
+                <Scan/>
                 </Grid>
               </Grid>
             </AccordionDetails>
@@ -237,13 +251,8 @@ function App() {
                   VC={vcdata}
                   VCN={vclist}
                 />
-                <Button
-                  variant="contained"
-                  endIcon={<SendIcon />}
-                  onClick={() => setPopup(true)}
-                >
-                  Send to Blockchain
-                </Button>
+                <br/>
+   
               </Box>
             </AccordionDetails>
           </Accordion>
@@ -345,12 +354,7 @@ function App() {
         </Box>
       </Backdrop>
       {/*------------END--------*/}
-      <button
-        onClick={() => {
-          console.log(vclist);
-          console.log(vcdata);
-        }}
-      ></button>
+
     </>
   );
 }
@@ -358,3 +362,11 @@ function App() {
 export default App;
 
 //            <Identity name={vname} lift={setVName}></Identity>
+//        <span style={{ float: "right" }}>ropsten test network :{address}</span>
+/*          <Button
+variant="contained"
+endIcon={<SendIcon />}
+onClick={() => setPopup(true)}
+>
+SET UP AUTOMATE PAYMENT WITH SMART CONTRACT
+</Button> */

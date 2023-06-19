@@ -29,7 +29,7 @@ if ( !requestConfigFile ) {
   requestConfigFile = process.env.ISSUANCEFILE || './issuance_request_config.json';
 }
 var issuanceConfig = require( requestConfigFile );
-issuanceConfig.registration.clientName = "Node.js SDK API Issuer";
+issuanceConfig.registration.clientName = "VC sign Thesis";
 // get the manifest from config.json, this is the URL to the credential created in the azure portal. 
 // the display and rules file to create the credential can be found in the credentialfiles directory
 // make sure the credentialtype in the issuance payload ma
@@ -112,8 +112,8 @@ mainApp.app.get('/api/issuer/issuance-request', async (req, res) => {
   }
   // here you could change the payload manifest and change the firstname and lastname
   if ( issuanceConfig.claims ) {
-    issuanceConfig.claims.given_name = "Gun";
-    issuanceConfig.claims.family_name = "Yodsanai";
+    issuanceConfig.claims.given_name = "Yosnai";
+    issuanceConfig.claims.family_name = "Chanatrutipan";
     issuanceConfig.claims.date_of_birth= "1 December 1993";
     issuanceConfig.claims.ID = "1101855987431";
   }

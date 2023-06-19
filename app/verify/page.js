@@ -1,4 +1,5 @@
 'use client'
+import { Typography } from '@mui/material';
 import Verify from '../../components/verify'
 import Link from 'next/link';
 function Vpage(){
@@ -9,9 +10,12 @@ function Vpage(){
           paddingBottom: "1rem",
         }}
       >
-       <Link href="/draft">sign</Link>
-        <Link href="/verify">verify</Link>
+
+<span style={{ float: "right" }}> <Link href="/draft" underline="none">SIGN</Link></span>
+
+      
       </nav>
+      <hr/>
 
   <Verify></Verify>
   
