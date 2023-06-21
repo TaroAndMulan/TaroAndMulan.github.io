@@ -206,7 +206,7 @@ const Preview = ({ template, VC, VCN }) => {
 
         <Grid item xs={12} align="center">
           <Button variant="contained" endIcon={<SendIcon />}>
-            SET UP AUTOMATE PAYMENT WITH SMART CONTRACT
+            ENFORCE WITH SMART CONTRACT
           </Button>
         </Grid>
       </Grid>
