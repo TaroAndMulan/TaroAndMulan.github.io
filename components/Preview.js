@@ -166,6 +166,7 @@ const Preview = ({ template, VC, VCN }) => {
                 <>
                   <TextField
                     fullWidth
+                    key = {index}
                     id="outlined-select-currency"
                     select
                     onChange={(event) => {
