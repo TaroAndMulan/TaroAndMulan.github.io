@@ -1,5 +1,7 @@
 "use client";
-import Link from 'next/link'
+import InputLabel from '@mui/material/InputLabel';
+
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { APIClient, Openlaw } from "openlaw";
 import { Templates } from "/utility/templates";
@@ -11,7 +13,10 @@ import { sha256 } from "crypto-hash";
 import SendIcon from "@mui/icons-material/Send";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import {
   Grid,
   TextField,
@@ -35,9 +40,9 @@ import ToBlockchain from "/components/ToBlockchain";
 import ropsten from "/utility/ropsten.png";
 import Identity from "@/components/Identity";
 import ShowVc from "@/components/showVC";
-import DrawIcon from '@mui/icons-material/Draw';
-import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import DrawIcon from "@mui/icons-material/Draw";
+import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
 const apiClient = new APIClient("https://lib.openlaw.io/api/v1/default");
 
 const style = {
@@ -46,7 +51,7 @@ const style = {
 };
 
 function App() {
-  const [template, setTemplate] = useState(Templates[1].txt);
+  const [template, setTemplate] = useState(Templates[0].txt);
   const [formData, setFormdata] = useState({});
   const [key, setKey] = useState(0);
   const textfieldRef = useRef();
@@ -65,8 +70,7 @@ function App() {
   const [vclist, setVclist] = useState([]);
   const [vcdata2, setVcdata2] = useState([]);
   const [vclist2, setVclist2] = useState([]);
-
-
+  const [choice,setChoice] = useState(0)
   const liftPayload = (x) => {
     let temppay = [];
     const claims = JSON.parse(x).claims;
@@ -119,6 +123,11 @@ function App() {
     setPopup(true);
   };
 
+  function handleTemplatechange(e){
+    setTemplate(Templates[e.target.value].txt); 
+    setChoice(e.target.value); 
+    textfieldRef.current.value = Templates[e.target.value].txt
+  }
   function submitTemplate(e) {
     e.preventDefault();
     setKey(key + 1);
@@ -148,12 +157,22 @@ function App() {
           paddingBottom: "1rem",
         }}
       >
-
-  <span style={{ float: "right" }}><Link href="/verify" underline="none"><HomeWorkIcon/></Link> </span>
-  <span style={{ float: "right" }}><Link href="/verify" underline="none"><CheckCircleIcon/></Link></span>
-        <span style={{ float: "right" }}><Link href="/verify" underline="none"><DrawIcon></DrawIcon></Link>
-</span>
-<br/>
+        <span style={{ float: "right" }}>
+          <Link href="/verify" underline="none">
+            <HomeWorkIcon />
+          </Link>{" "}
+        </span>
+        <span style={{ float: "right" }}>
+          <Link href="/verify" underline="none">
+            <CheckCircleIcon />
+          </Link>
+        </span>
+        <span style={{ float: "right" }}>
+          <Link href="/verify" underline="none">
+            <DrawIcon></DrawIcon>
+          </Link>
+        </span>
+        <br />
       </nav>
 
       <Grid container spacing={5}>
@@ -169,7 +188,11 @@ function App() {
               id="panel1a-header"
               align="center"
             >
-              <Typography flexGrow={1}  sx={{fontWeight: 'bold'}} align="center">
+              <Typography
+                flexGrow={1}
+                sx={{ fontWeight: "bold" }}
+                align="center"
+              >
                 USER AUTHENTICATION{" "}
               </Typography>
             </AccordionSummary>
@@ -179,13 +202,13 @@ function App() {
                   <Scan payloadLift={liftPayload}></Scan>
                 </Grid>
                 <Grid item xs={3}>
-                <Scan/>
+                  <Scan />
                 </Grid>
                 <Grid item xs={3}>
-                <Scan/>
+                  <Scan />
                 </Grid>
                 <Grid item xs={3}>
-                <Scan/>
+                  <Scan />
                 </Grid>
               </Grid>
             </AccordionDetails>
@@ -204,12 +227,37 @@ function App() {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} align="center">
+              <Typography
+                sx={{ fontWeight: "bold" }}
+                flexGrow={1}
+                align="center"
+              >
                 DRAFT{" "}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box sx={style}>
+                                        {/*------------change template--------*/}
+
+                                        <Box sx={{display:'flex', flexDirection: 'row-reverse'}}>
+  
+  <FormControl size="small" float="right">
+                  <InputLabel id="demo-simple-select-label">template</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={choice}
+                    label="template"
+                    onChange={handleTemplatechange}
+                  >
+                    <MenuItem value={0}>ขายขนม</MenuItem>
+                    <MenuItem value={1}>สัญญาเช่่า 1</MenuItem>
+                  </Select>
+                </FormControl>
+</Box>
+                <hr/>
+                        {/*------------EDITABLE TEMPLATE TEXTFIELD--------*/}
+
                 <TextField
                   id="standard-multiline-static"
                   multiline
@@ -218,8 +266,9 @@ function App() {
                   variant="standard"
                   inputRef={textfieldRef}
                 />
+
                 <Button color="success" onClick={submitTemplate}>
-                  Generate new template.
+                  Generate custom template.
                 </Button>
               </Box>
             </AccordionDetails>
@@ -237,10 +286,13 @@ function App() {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              
             >
-              <Typography  sx={{fontWeight: 'bold'}} flexGrow={1} align="center">
-                Sign {" "}
+              <Typography
+                sx={{ fontWeight: "bold" }}
+                flexGrow={1}
+                align="center"
+              >
+                Sign{" "}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -250,9 +302,9 @@ function App() {
                   formData={formData}
                   VC={vcdata}
                   VCN={vclist}
+                  choice={choice}
                 />
-                <br/>
-   
+                <br />
               </Box>
             </AccordionDetails>
           </Accordion>
@@ -354,7 +406,6 @@ function App() {
         </Box>
       </Backdrop>
       {/*------------END--------*/}
-
     </>
   );
 }

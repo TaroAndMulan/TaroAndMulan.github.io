@@ -11,6 +11,7 @@ var base64url = require('base64url')
 var secureRandom = require('secure-random');
 var bodyParser = require('body-parser')
 // mod.cjs
+require('dotenv').config()
 
 const next = require("next");
 const dev = process.env.NODE_ENV !== "production"
@@ -218,6 +219,9 @@ var verifier = require('./verifier.js');
 var issuer = require('./issuer.js');
 
 app.get('*', (req, res) => {
+  return handle(req, res)
+})
+app.post('*', (req, res) => {
   return handle(req, res)
 })
 // start server

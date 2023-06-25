@@ -16,6 +16,14 @@ import customVfs from "../utility/vfs_fonts";
 import SendIcon from "@mui/icons-material/Send";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { sha256 } from "crypto-hash";
+import { Templates } from "@/utility/templates";
+import Backdrop from "@mui/material/Backdrop";
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import AddIcon from '@mui/icons-material/Add';
+import  { SelectChangeEvent } from '@mui/material/Select';
+import IconButton from '@mui/material/IconButton';
+
 
 import {
   generateKeyPair,
@@ -38,8 +46,10 @@ const privateJwk = {
   d: "EejP6XsGFZzIOGSgbbIUK1WloScvYL5Kxlbj5PvpzeI",
 };
 
-const Preview = ({ template, VC, VCN }) => {
+const Preview = ({ template, VC, VCN, choice }) => {
   const [cow, setCow] = useState();
+  const [open, setOpen] = useState(false);
+  const [submit,setSubmit] = useState(["0","0","0","0","0","0","0"]);
   const formtitle = extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title) => {
     return " ";
@@ -47,8 +57,59 @@ const Preview = ({ template, VC, VCN }) => {
 
   const [formdata, setFormdata] = useState(tempformdata);
   const [preview, setPreview] = useState(template);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  // set submit i index with value v
+  function subhelp(i,v){
+    const temp = submit.map((d,j)=>{if(i==j) return v; else return d;})
+    setSubmit(temp);
+  }
+  const Smartgenerate = () => {
+    
+
+    return (
+      <>
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Customized smart contract condition  <button onClick={handleClose}>close</button>
+
+            </Typography>
+            <Typography variant="h5" component="div">
+              <IconButton size="large">
+                {" "}
+                <AddIcon style={{ color: "green" }} />
+              </IconButton>{" "}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              current condition
+            </Typography>
+            <TextField value={submit[0]} label="StartDate" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
+  
+
+
+          </CardContent>
+          <CardActions>
+            <Button size="small">SUBMIT </Button>
+          </CardActions>
+        </Card>
+      </>
+    );
+  };
+
   function fillcontract() {
+    //console.log("outbug1", template, VC,VCN,formtitle,tempformdata)
     let outputString = template;
+    //console.log("outbug: ",outputString)
     const regex = "/[(.*?)]/g";
 
     for (let i = 0; i < formtitle.length; i++) {
@@ -70,7 +131,7 @@ const Preview = ({ template, VC, VCN }) => {
     outputString = outputString.replace(/\n/g, "<br/>");
     const regex2 = "/**(.*)**/g";
     outputString = outputString.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
-    console.log(outputString);
+    //console.log(outputString);
     outputString =
       outputString +
       `<br/> <span> signed by VCsignThesis </span> <br/> <span> did:ion:EiAmFosP8PQIpI4PftKVt5fZaC_gbcNg8xM6nDAQf4I4FA </span>`;
@@ -118,7 +179,7 @@ const Preview = ({ template, VC, VCN }) => {
       //console.log(cat);
     });
 
-    await delay(10000);
+    await delay(3000);
     let jws = await sign({ payload: payloadtosign, privateJwk });
 
     const fileData = JSON.stringify(jws);
@@ -130,13 +191,27 @@ const Preview = ({ template, VC, VCN }) => {
     link.click();
   }
 
+  function enforce() {
+    handleOpen();
+    /*
+    let startDate = Math.floor(new Date().getTime() / 1000);
+    let interval = 1 months;
+    uint duration;
+    string public status;
+    uint public paid;
+    //3=rent 4=deposit 5=maxUnpaid 6=advanec
+    uint rent;
+    uint deposit;
+    uint maxUnpaid;
+    uint advance;*/
+  }
+
   useEffect(() => {
     fillcontract();
   }, [formdata, template]);
 
   return (
     <>
-      
       <Grid container spacing={5}>
         <Grid item xs={3}>
           {formtitle.map((title, index) => {
@@ -166,7 +241,7 @@ const Preview = ({ template, VC, VCN }) => {
                 <>
                   <TextField
                     fullWidth
-                    key = {index}
+                    key={index}
                     id="outlined-select-currency"
                     select
                     onChange={(event) => {
@@ -206,11 +281,54 @@ const Preview = ({ template, VC, VCN }) => {
         </Grid>
 
         <Grid item xs={12} align="center">
-          <Button variant="contained" endIcon={<SendIcon />}>
+          <Button variant="contained" onClick={enforce} endIcon={<SendIcon />}>
             ENFORCE WITH SMART CONTRACT
           </Button>
         </Grid>
       </Grid>
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+
+<>
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Customized smart contract condition  <button onClick={handleClose}>close</button>
+
+            </Typography>
+            <Typography variant="h5" component="div">
+              <IconButton size="large">
+                {" "}
+                <AddIcon style={{ color: "green" }} />
+              </IconButton>{" "}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              current condition
+            </Typography>
+            <TextField value={submit[0]} label="StartDate" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
+            <TextField value={submit[1]} label="Interval" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>
+            <TextField value={submit[2]} label="duration" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/>
+            <TextField value={submit[3]} label="rent" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/>
+            <TextField value={submit[4]} label="deposit" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/>
+            <TextField value={submit[5]} label="maxUnpaid" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/>
+            <TextField value={submit[6]} label="advance" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/>
+
+
+          </CardContent>
+          <CardActions>
+          <Button onClick={()=>console.log(submit)}>SUBMIT</Button>
+          </CardActions>
+        </Card>
+      </>
+
+      </Backdrop>
     </>
   );
 };
@@ -224,3 +342,15 @@ export default Preview;
 <p style={{ "white-space": "pre-wrap" }}>{template}</p> 
 </Grid>
 */
+
+
+/*
+
+          
+            <TextField id="outlined-basic" label="Interval" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
+            <TextField id="outlined-basic" label="duration" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
+            <TextField id="outlined-basic" label="rent" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
+            <TextField id="outlined-basic" label="deposit" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
+            <TextField id="outlined-basic" label="maxUnpaid" variant="outlined" onChange={(e)=>subhelp(0,e.target.value)}/>
+            <TextField id="outlined-basic" label="advance" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
+            */

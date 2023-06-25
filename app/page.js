@@ -12,7 +12,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { io } from "socket.io-client";
 let socket;
-
 const inter = Inter({ subsets: ["latin"] });
 const initSocket = async () => {
   await fetch("api/socket");

@@ -1,10 +1,11 @@
 'use client'
-import Homepage from "@/components/smartgenerate";
+import Homepage from "@/components/homepage";
 import Smartgenerate from "@/components/smartgenerate";
 import Lease from "@/components/leaseStatus";
+
 function Test(){
   return (<>
-        <Lease></Lease>
+        <Homepage/>
   
   </>)
 }
