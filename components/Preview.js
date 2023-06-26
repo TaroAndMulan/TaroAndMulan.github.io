@@ -69,6 +69,19 @@ const Preview = ({ template, VC, VCN, choice }) => {
     const temp = submit.map((d,j)=>{if(i==j) return v; else return d;})
     setSubmit(temp);
   }
+
+  async function handleSubmit() {
+    const resp = await fetch('http://localhost:8080/api/testarray', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(submit)
+    });
+    console.log(resp.json())
+
+  }
   const Smartgenerate = () => {
     
 
@@ -323,7 +336,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
 
           </CardContent>
           <CardActions>
-          <Button onClick={()=>console.log(submit)}>SUBMIT</Button>
+          <Button onClick={handleSubmit}>SUBMIT</Button>
           </CardActions>
         </Card>
       </>
