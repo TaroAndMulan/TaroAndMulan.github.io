@@ -1,15 +1,16 @@
 'use client'
-import { Typography } from '@mui/material';
-import Verify from '../../components/verify'
-import Link from 'next/link';
+import Homepage from "@/components/homepage";
+import Smartgenerate from "@/components/smartgenerate";
+import Lease from "@/components/leaseStatus";
 import DrawIcon from "@mui/icons-material/Draw";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
-function Vpage(){
-  return (<>
-      <nav
+import Link from "next/link";
+function Test(){
+  return (
+    <>
+    <nav
         style={{
           borderBottom: "solid 2px",
           paddingBottom: "1rem",
@@ -32,12 +33,10 @@ function Vpage(){
         </span>
         <br />
       </nav>
-      <hr/>
+      <Lease></Lease>
 
-  <Verify></Verify>
-  
-  
-  </>)
+    </>
+  )
 }
 
-export default Vpage;
+export default Test;

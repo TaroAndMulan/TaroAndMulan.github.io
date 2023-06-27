@@ -158,7 +158,7 @@ function App() {
         }}
       >
         <span style={{ float: "right" }}>
-          <Link href="/verify" underline="none">
+          <Link href="/draft" underline="none">
             <HomeWorkIcon />
           </Link>{" "}
         </span>
@@ -168,7 +168,7 @@ function App() {
           </Link>
         </span>
         <span style={{ float: "right" }}>
-          <Link href="/verify" underline="none">
+          <Link href="/lease" underline="none">
             <DrawIcon></DrawIcon>
           </Link>
         </span>

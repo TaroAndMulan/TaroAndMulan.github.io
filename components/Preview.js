@@ -49,7 +49,7 @@ const privateJwk = {
 const Preview = ({ template, VC, VCN, choice }) => {
   const [cow, setCow] = useState();
   const [open, setOpen] = useState(false);
-  const [submit,setSubmit] = useState(["0","0","0","0","0","0","0"]);
+  const [submit,setSubmit] = useState(["0","0","0","0","0","0","0","0","0","0"]);
   const formtitle = extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title) => {
     return " ";
@@ -71,7 +71,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
   }
 
   async function handleSubmit() {
-    const resp = await fetch('http://localhost:8080/api/testarray', {
+    const resp = await fetch('http://localhost:8080/api/deploy', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -79,7 +79,9 @@ const Preview = ({ template, VC, VCN, choice }) => {
       },
       body: JSON.stringify(submit)
     });
+    console.log(resp)
     console.log(resp.json())
+  
 
   }
   const Smartgenerate = () => {
@@ -325,14 +327,15 @@ const Preview = ({ template, VC, VCN, choice }) => {
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               current condition
             </Typography>
-            <TextField value={submit[0]} label="StartDate" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
-            <TextField value={submit[1]} label="Interval" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>
-            <TextField value={submit[2]} label="duration" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/>
-            <TextField value={submit[3]} label="rent" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/>
-            <TextField value={submit[4]} label="deposit" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/>
-            <TextField value={submit[5]} label="maxUnpaid" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/>
-            <TextField value={submit[6]} label="advance" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/>
-
+            <TextField value={submit[0]} label="วันเริ่ม" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
+            <TextField value={submit[1]} label="ทุกๆ" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>
+            <TextField value={submit[2]} label="งวด" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/>
+            <TextField value={submit[3]} label="ค่าเช่า" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/>
+            <TextField value={submit[4]} label="เงินมัดจำ" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/>
+            <TextField value={submit[5]} label="อนุโลม" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/>
+            <TextField value={submit[6]} label="จ่ายล่วงหน้า" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/>
+            <hr/>
+            <TextField value={submit[9]} label="MEMO" variant="outlined"  onChange={(e)=>subhelp(9,e.target.value)}/>
 
           </CardContent>
           <CardActions>
