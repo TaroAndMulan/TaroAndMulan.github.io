@@ -318,22 +318,17 @@ const Preview = ({ template, VC, VCN, choice }) => {
               Customized smart contract condition  <button onClick={handleClose}>close</button>
 
             </Typography>
-            <Typography variant="h5" component="div">
-              <IconButton size="large">
-                {" "}
-                <AddIcon style={{ color: "green" }} />
-              </IconButton>{" "}
-            </Typography>
+  
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               current condition
             </Typography>
-            <TextField value={submit[0]} label="วันเริ่ม" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
-            <TextField value={submit[1]} label="ทุกๆ" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>
-            <TextField value={submit[2]} label="งวด" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/>
-            <TextField value={submit[3]} label="ค่าเช่า" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/>
-            <TextField value={submit[4]} label="เงินมัดจำ" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/>
-            <TextField value={submit[5]} label="อนุโลม" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/>
-            <TextField value={submit[6]} label="จ่ายล่วงหน้า" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/>
+             <Box  sx={{display:'flex',alignItems:'center'}}> <Typography >วันเริ่ม</Typography> </Box>  <Box ml={10}><TextField value={submit[0]} label="วันเริ่ม" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} /></Box>    <br/>
+            <TextField value={submit[1]} label="ทุกๆ" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>  <br/>
+            <TextField value={submit[2]} label="งวด" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/><br/>
+            <TextField value={submit[3]} label="ค่าเช่า" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/><br/>
+            <TextField value={submit[4]} label="เงินมัดจำ" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/><br/>
+            <TextField value={submit[5]} label="อนุโลม" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/><br/>
+            <TextField value={submit[6]} label="จ่ายล่วงหน้า" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/><br/>
             <hr/>
             <TextField value={submit[9]} label="MEMO" variant="outlined"  onChange={(e)=>subhelp(9,e.target.value)}/>
 
@@ -370,3 +365,12 @@ export default Preview;
             <TextField id="outlined-basic" label="maxUnpaid" variant="outlined" onChange={(e)=>subhelp(0,e.target.value)}/>
             <TextField id="outlined-basic" label="advance" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
             */
+
+
+            /*
+                      <Typography variant="h5" component="div">
+              <IconButton size="large">
+                {" "}
+                <AddIcon style={{ color: "green" }} />
+              </IconButton>{" "}
+            </Typography> */
