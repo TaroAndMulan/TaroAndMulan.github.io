@@ -70,7 +70,20 @@ function App() {
   const [vclist, setVclist] = useState([]);
   const [vcdata2, setVcdata2] = useState([]);
   const [vclist2, setVclist2] = useState([]);
+  const [vcl,setVcl] = useState([]);
+  const [vcd,setVcd]  = useState([]);
   const [choice,setChoice] = useState(0)
+
+  useEffect(()=>{
+    let tempvcd;
+    tempvcd= vcdata.concat(vcdata2);
+    let tempvcl;
+    tempvcl = vclist.concat(vclist2);
+    setVcl(tempvcl)
+    setVcd(tempvcd) 
+
+  },[vcdata,vclist,vcdata2,vclist2])
+
   const liftPayload = (x) => {
     let temppay = [];
     const claims = JSON.parse(x).claims;
@@ -158,19 +171,21 @@ function App() {
         }}
       >
         <span style={{ float: "right" }}>
-          <Link href="/draft" underline="none">
-            <HomeWorkIcon />
-          </Link>{" "}
+          <Link href="/lease" underline="none">
+                   <HomeWorkIcon />
+
+          </Link>
         </span>
         <span style={{ float: "right" }}>
           <Link href="/verify" underline="none">
             <CheckCircleIcon />
           </Link>
         </span>
+
         <span style={{ float: "right" }}>
-          <Link href="/lease" underline="none">
-            <DrawIcon></DrawIcon>
-          </Link>
+          <Link href="/draft" underline="none">
+          <DrawIcon></DrawIcon> 
+          </Link>{" "}
         </span>
         <br />
       </nav>
@@ -202,7 +217,7 @@ function App() {
                   <Scan payloadLift={liftPayload}></Scan>
                 </Grid>
                 <Grid item xs={3}>
-                  <Scan />
+                  <Scan payloadLift={liftPayload2}/>
                 </Grid>
                 <Grid item xs={3}>
                   <Scan />
@@ -300,8 +315,8 @@ function App() {
                 <Preview
                   template={template}
                   formData={formData}
-                  VC={vcdata}
-                  VCN={vclist}
+                  VC={vcd}
+                  VCN={vcl}
                   choice={choice}
                 />
                 <br />

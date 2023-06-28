@@ -1,4 +1,6 @@
-
+import Link from 'next/link';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -17,6 +19,8 @@ import {Grid} from '@mui/material';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { DetailsOutlined } from '@mui/icons-material';
 import DangerousIcon from '@mui/icons-material/Dangerous';
+import CheckIcon from '@mui/icons-material/Check';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 let contract;
 let contract_abi;
 const { ethers } = require("ethers");
@@ -28,6 +32,7 @@ const Lease = ({  }) => {
   const [landlord,setLandlord] = useState();
   const [tenant,setTenant] = useState();
   const [info,setInfo] = useState(["0","0","0","0","0","0","0","0","0"]);
+  const [loading,setLoading] = useState(false);
   let  signer;
   useEffect(()=>{
     const metamask = async()=>{
@@ -74,6 +79,9 @@ async function handleshow(){
 
 }
 
+function handleLoading(){
+  setLoading(false);
+}
 async function getcontract(){
   const data = memo
   const res = await fetch("http://localhost:8080/api/fetchcontract", {
@@ -98,11 +106,23 @@ async function paydeposit(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  await contractWithSigner.pay_deposit( { value: ethers.utils.parseUnits(  (Number(info[3])*Number(info[6])+Number(info[4])).toString(), "gwei") });
+  const transaction = await contractWithSigner.pay_deposit( { value: ethers.utils.parseUnits(  (Number(info[3])*Number(info[6])+Number(info[4])).toString(), "gwei") });
+  transaction.wait().then(async (receipt) => {
+    // console.log(receipt);
+    if (receipt && receipt.status == 1) {
+       // transaction success.
+       console.log(
+          "Succesful ",
+       );
+       setLoading(false)
+       handleshow();
 
+    }
+ });
 }
 
 async function payrent(){
+  setLoading(true)
   let provider = new ethers.providers.Web3Provider(window.ethereum)
   provider.send("eth_requestAccounts", []);
   signer = provider.getSigner()
@@ -114,7 +134,21 @@ async function payrent(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  await contractWithSigner.pay_rent( { value: ethers.utils.parseUnits(  info[3], "gwei") });
+  const transaction = await contractWithSigner.pay_rent( { value: ethers.utils.parseUnits(  info[3], "gwei") });
+  
+  transaction.wait().then(async (receipt) => {
+    // console.log(receipt);
+    if (receipt && receipt.status == 1) {
+       // transaction success.
+       console.log(
+          "Succesful ",
+       );
+       setLoading(false)
+       handleshow();
+
+    }
+ });
+
 
 }
 
@@ -130,8 +164,19 @@ async function automate(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  await contractWithSigner.automate({gasLimit: 50} );
+  const transaction = await contractWithSigner.automate({gasLimit: 50} );
+  transaction.wait().then(async (receipt) => {
+    // console.log(receipt);
+    if (receipt && receipt.status == 1) {
+       // transaction success.
+       console.log(
+          "Succesful ",
+       );
+       setLoading(false)
+       handleshow();
 
+    }
+ });
 }
 
 
@@ -148,8 +193,27 @@ async function landlordwithdrawn(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  await contractWithSigner.landlordwithdrawn();
+  const transaction = await contractWithSigner.landlordwithdrawn();
+  transaction.wait().then(async (receipt) => {
+    // console.log(receipt);
+    if (receipt && receipt.status == 1) {
+       // transaction success.
+       console.log(
+          "Succesful ",
+       );
+       setLoading(false)
+       handleshow();
 
+    }
+ });
+}
+
+const displayICON = (s)=>{
+  if(s=='inactive')
+   return <DangerousIcon style={{ color: "red" }}/>
+  else if(s=="active")
+  return  (<ScheduleIcon style={{ color: "green" }}/>)
+  else return (<CheckIcon style={{ color: "green" }}/>)
 }
   const LeaseStatus = ({_abi,_address})=> {
 
@@ -163,7 +227,8 @@ async function landlordwithdrawn(){
         Lease Agreement
       </Typography>
       <Typography variant="h5" component="div">
-      Smart Contract Address : {contract_address}
+      Smart Contract Address : {contract_address} 
+      <Link href={"https://sepolia.etherscan.io/address/"+contract_address}><OpenInNewIcon/></Link>
       </Typography>
       <br/>
       <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -176,7 +241,7 @@ async function landlordwithdrawn(){
         จ่ายทุกๆ {(info[1])} วัน 
         เป็นจำนวน {info[2]} ครั้ง <br/>
         ค่ามัดจำ {info[4]} บาท  (คืนให้หลังจบสัญญา) <br/>
-        จ่ายล่วงหน้า   {info[6]} งวดก่อนเข้าพัก
+        จ่ายล่วงหน้า   {info[6]} งวดก่อนเข้าพัก  <br/>
         เงื่อนไขผิดสัญญา : ขาดค่าเช่า  {Math.floor(info[5]+1)} งวด
 
         
@@ -188,7 +253,8 @@ async function landlordwithdrawn(){
       <Typography variant="body2">
         สถานะ = {info[8]}  
          {
-         (info[8]=="active")?( <ScheduleIcon style={{ color: "green" }}/>):<DangerousIcon style={{ color: "red" }}/>
+
+          displayICON(info[8])
          
          
          }
@@ -206,11 +272,11 @@ async function landlordwithdrawn(){
       </Typography>
     </CardContent>
     <CardActions>
-      <Button size="small" variant="contained" onClick={paydeposit}>Start Contract </Button>
-      <Button size="small" variant="contained" onClick={payrent}>PAY RENT </Button>
+      <Button size="small" variant="contained" onClick={paydeposit}> เริ่มสัญญา </Button>
+      <Button size="small" variant="contained" onClick={payrent}>จ่ายค่าเช่า</Button>
 
-      <Button size="small" variant="contained" onClick={automate}>AUTOMATE </Button>
-      <Button size="small" variant="contained" onClick={landlordwithdrawn}>LANDLORD WITHDRAWN </Button>
+      <Button size="small" variant="contained" onClick={automate}>ตรวจสอบสถานะสัญญา</Button>
+      <Button size="small" variant="contained" onClick={landlordwithdrawn}>ถอนเงินออกจากสัญญาอัจฉริยะ </Button>
 
 
     </CardActions>
@@ -238,7 +304,7 @@ async function landlordwithdrawn(){
                 required
                 fullWidth
                 id="password"
-                label="Fetch Contract"
+                label="ใส่หมายเลขสัญญา"
                 value={memo}
                 onChange={(e)=>setMemo(e.target.value)} 
               />
@@ -251,7 +317,7 @@ async function landlordwithdrawn(){
                 sx={{ height: "56px" }}
                 onClick={handleshow}
               >
-                fetch contract
+                ค้นหาสัญญาอัจฉริยะ
               </Button>
             </Grid>
           </Grid>
@@ -261,6 +327,14 @@ async function landlordwithdrawn(){
 
 
     { show?  <LeaseStatus/>: <></>}
+
+    <Backdrop
+  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loading}
+  onClick={handleLoading}
+>
+  <CircularProgress color="inherit" />
+</Backdrop>
 
     </>
   );

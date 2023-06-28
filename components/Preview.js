@@ -18,13 +18,13 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { sha256 } from "crypto-hash";
 import { Templates } from "@/utility/templates";
 import Backdrop from "@mui/material/Backdrop";
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import AddIcon from '@mui/icons-material/Add';
-import  { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-
-
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import AddIcon from "@mui/icons-material/Add";
+import { SelectChangeEvent } from "@mui/material/Select";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
+import GavelIcon from '@mui/icons-material/Gavel';
 import {
   generateKeyPair,
   sign,
@@ -49,7 +49,18 @@ const privateJwk = {
 const Preview = ({ template, VC, VCN, choice }) => {
   const [cow, setCow] = useState();
   const [open, setOpen] = useState(false);
-  const [submit,setSubmit] = useState(["0","0","0","0","0","0","0","0","0","0"]);
+  const [submit, setSubmit] = useState([
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+  ]);
   const formtitle = extractTextInParenthesis(template);
   const tempformdata = formtitle.map((title) => {
     return " ";
@@ -65,28 +76,27 @@ const Preview = ({ template, VC, VCN, choice }) => {
     setOpen(true);
   };
   // set submit i index with value v
-  function subhelp(i,v){
-    const temp = submit.map((d,j)=>{if(i==j) return v; else return d;})
+  function subhelp(i, v) {
+    const temp = submit.map((d, j) => {
+      if (i == j) return v;
+      else return d;
+    });
     setSubmit(temp);
   }
 
   async function handleSubmit() {
-    const resp = await fetch('http://localhost:8080/api/deploy', {
-      method: 'POST',
-      mode: 'cors',
+    const resp = await fetch("http://localhost:8080/api/deploy", {
+      method: "POST",
+      mode: "cors",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(submit)
+      body: JSON.stringify(submit),
     });
-    console.log(resp)
-    console.log(resp.json())
-  
-
+    console.log(resp);
+    console.log(resp.json());
   }
   const Smartgenerate = () => {
-    
-
     return (
       <>
         <Card sx={{ minWidth: 275 }}>
@@ -96,8 +106,8 @@ const Preview = ({ template, VC, VCN, choice }) => {
               color="text.secondary"
               gutterBottom
             >
-              Customized smart contract condition  <button onClick={handleClose}>close</button>
-
+              Customized smart contract condition{" "}
+              <button onClick={handleClose}>close</button>
             </Typography>
             <Typography variant="h5" component="div">
               <IconButton size="large">
@@ -108,10 +118,12 @@ const Preview = ({ template, VC, VCN, choice }) => {
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
               current condition
             </Typography>
-            <TextField value={submit[0]} label="StartDate" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} />
-  
-
-
+            <TextField
+              value={submit[0]}
+              label="StartDate"
+              variant="outlined"
+              onChange={(e) => subhelp(0, e.target.value)}
+            />
           </CardContent>
           <CardActions>
             <Button size="small">SUBMIT </Button>
@@ -303,42 +315,158 @@ const Preview = ({ template, VC, VCN, choice }) => {
       </Grid>
 
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          mx: "auto",
+        }}
         open={open}
       >
+        <>
+          <Card sx={{ minWidth: 275, width: 0.5 }}>
+            <CardContent>
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid
+                  container
+                  spacing={2}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={11} justifyContent="center">
+                    <Typography variant="h4" align="center">
+                      กำหนดเงื่อนไขสัญญาอัจฉริยะ
+                    </Typography>
 
-<>
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Customized smart contract condition  <button onClick={handleClose}>close</button>
+                  </Grid>
 
-            </Typography>
-  
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              current condition
-            </Typography>
-             <Box  sx={{display:'flex',alignItems:'center'}}> <Typography >วันเริ่ม</Typography> </Box>  <Box ml={10}><TextField value={submit[0]} label="วันเริ่ม" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)} /></Box>    <br/>
-            <TextField value={submit[1]} label="ทุกๆ" variant="outlined"  onChange={(e)=>subhelp(1,e.target.value)}/>  <br/>
-            <TextField value={submit[2]} label="งวด" variant="outlined"  onChange={(e)=>subhelp(2,e.target.value)}/><br/>
-            <TextField value={submit[3]} label="ค่าเช่า" variant="outlined"  onChange={(e)=>subhelp(3,e.target.value)}/><br/>
-            <TextField value={submit[4]} label="เงินมัดจำ" variant="outlined"  onChange={(e)=>subhelp(4,e.target.value)}/><br/>
-            <TextField value={submit[5]} label="อนุโลม" variant="outlined" onChange={(e)=>subhelp(5,e.target.value)}/><br/>
-            <TextField value={submit[6]} label="จ่ายล่วงหน้า" variant="outlined"  onChange={(e)=>subhelp(6,e.target.value)}/><br/>
-            <hr/>
-            <TextField value={submit[9]} label="MEMO" variant="outlined"  onChange={(e)=>subhelp(9,e.target.value)}/>
+                  <Grid item xs={1} justifyContent="flex-end">
+                  <CloseIcon style={{color:'red'}} onClick={handleClose}/> 
 
-          </CardContent>
-          <CardActions>
-          <Button onClick={handleSubmit}>SUBMIT</Button>
-          </CardActions>
-        </Card>
-      </>
 
+                  </Grid>
+
+                  <Grid item xs={12}>
+                  <hr/>
+
+
+                  </Grid>
+
+                  <Grid item xs={6} justifyContent="center">
+                    <Typography align="center">วันเริ่ม</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[0]}
+                      label="วันเริ่ม"
+                      variant="outlined"
+                      onChange={(e) => subhelp(0, e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="center">
+                      รายวัน / รายสัปดาห์/ รายเดือน / รายปี
+                      (days/weeks/months/year){" "}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[1]}
+                      label="ทุกๆ"
+                      variant="outlined"
+                      onChange={(e) => subhelp(1, e.target.value)}
+                    />
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Typography align="center">
+                      ระยะเวลาสัญญา (จำนวนครั้ง)
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[2]}
+                      label="งวด"
+                      variant="outlined"
+                      onChange={(e) => subhelp(2, e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="center">ค่าเช่างวดละ</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[3]}
+                      label="ค่าเช่า"
+                      variant="outlined"
+                      onChange={(e) => subhelp(3, e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="center">ค่าแรกเข้า</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[4]}
+                      label="เงินมัดจำ"
+                      variant="outlined"
+                      onChange={(e) => subhelp(4, e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="center">
+                      จำนวนครั้งที่ขาดจ่ายได้
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[5]}
+                      label="อนุโลม"
+                      variant="outlined"
+                      onChange={(e) => subhelp(5, e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography align="center">
+                      จ่ายล่วงหน้าก่อนเข้าพัก
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <TextField
+                      value={submit[6]}
+                      label="จ่ายล่วงหน้า"
+                      variant="outlined"
+                      onChange={(e) => subhelp(6, e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <hr />
+              <TextField
+                fullWidth
+                value={submit[9]}
+                label="MEMO"
+                variant="outlined"
+                onChange={(e) => subhelp(9, e.target.value)}
+              />
+            </CardContent>
+            <CardActions>
+              <Box mx={'auto'}>
+              <Button
+            variant="contained"
+           
+            endIcon={< GavelIcon />}
+            onClick={handleSubmit}
+          >
+            <Typography align="center">SUBMIT</Typography>
+          </Button>
+              </Box>
+            
+            </CardActions>
+          </Card>
+        </>
       </Backdrop>
     </>
   );
@@ -354,8 +482,8 @@ export default Preview;
 </Grid>
 */
 
-
 /*
+                  style={{ paddingLeft: "20px" }}
 
           
             <TextField id="outlined-basic" label="Interval" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
@@ -366,8 +494,7 @@ export default Preview;
             <TextField id="outlined-basic" label="advance" variant="outlined"  onChange={(e)=>subhelp(0,e.target.value)}/>
             */
 
-
-            /*
+/*
                       <Typography variant="h5" component="div">
               <IconButton size="large">
                 {" "}
