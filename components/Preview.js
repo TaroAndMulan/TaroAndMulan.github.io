@@ -353,7 +353,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   </Grid>
 
                   <Grid item xs={6} justifyContent="center">
-                    <Typography align="center">วันเริ่ม</Typography>
+                    <Typography align="center">วันเริ่มต้นสัญญา</Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
@@ -366,7 +366,6 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   <Grid item xs={6}>
                     <Typography align="center">
                       รายวัน / รายสัปดาห์/ รายเดือน / รายปี
-                      (days/weeks/months/year){" "}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
@@ -380,7 +379,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
 
                   <Grid item xs={6}>
                     <Typography align="center">
-                      ระยะเวลาสัญญา (จำนวนครั้ง)
+                      ระยะเวลาสัญญา (จำนวนครั้งที่ต้องจ่าย)
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
@@ -397,7 +396,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   <Grid item xs={6}>
                     <TextField
                       value={submit[3]}
-                      label="ค่าเช่า"
+                      label="บาท"
                       variant="outlined"
                       onChange={(e) => subhelp(3, e.target.value)}
                     />
@@ -408,20 +407,20 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   <Grid item xs={6}>
                     <TextField
                       value={submit[4]}
-                      label="เงินมัดจำ"
+                      label="บาท"
                       variant="outlined"
                       onChange={(e) => subhelp(4, e.target.value)}
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">
-                      จำนวนครั้งที่ขาดจ่ายได้
+                      จำนวนครั้งที่ขาดจ่ายได้สูงสุด
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
                       value={submit[5]}
-                      label="อนุโลม"
+                      label="ครั้ง"
                       variant="outlined"
                       onChange={(e) => subhelp(5, e.target.value)}
                     />
@@ -435,7 +434,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   <Grid item xs={6}>
                     <TextField
                       value={submit[6]}
-                      label="จ่ายล่วงหน้า"
+                      label="ครั้ง"
                       variant="outlined"
                       onChange={(e) => subhelp(6, e.target.value)}
                     />
@@ -447,7 +446,7 @@ const Preview = ({ template, VC, VCN, choice }) => {
               <TextField
                 fullWidth
                 value={submit[9]}
-                label="MEMO"
+                label="หมายเลขอ้างอิง"
                 variant="outlined"
                 onChange={(e) => subhelp(9, e.target.value)}
               />
