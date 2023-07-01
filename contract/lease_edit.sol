@@ -10,6 +10,7 @@ contract Lease {
     uint interval;
     uint duration;
     string public status;
+    uint ustatus;
     uint public paid;
     //3=rent 4=deposit 5=maxUnpaid 6=advanec
     uint rent;
@@ -32,9 +33,14 @@ contract Lease {
 
         if(advance>0 || deposit>0){
             status = "inactive";
+            ustatus=0;
         }
         else 
-        status = "active";
+        {
+            status = "active";
+            ustatus=1;
+        }
+
     }
 
     function pay_rent() public payable {
@@ -42,7 +48,11 @@ contract Lease {
         uint excess = msg.value - rent;
         paid = paid + 1;
         if (paid==duration)
-        setStatus("complete");
+        {
+            setStatus("complete");
+            ustatus=2;
+        }
+
         if (excess > 0) 
         payable(msg.sender).transfer(excess);
     }
@@ -51,20 +61,15 @@ contract Lease {
         require(msg.value>= deposit+rent*advance);
         paid = paid+advance;
         setStatus("active");
+        ustatus=1;
     }
 
     function automate() public {
-        if (keccak256(abi.encodePacked(status))==keccak256(abi.encodePacked("active"))) {
+        if (ustatus==1) {
             uint _paid = (block.timestamp - startDate) / interval;
-            if (paid + maxUnpaid > _paid) {
-                if (paid == duration) {
-                    setStatus("complete");
-                    tenant.transfer(address(this).balance);
-                } else {
-                    setStatus("active");
-                }
-                landlordwithdrawn();
-            } else terminate();
+            if (paid + maxUnpaid < _paid+1) {
+                terminate();
+            } 
         }
     }
 
@@ -85,8 +90,8 @@ contract Lease {
     }
 
     function terminate() internal {
-        setStatus("TERMINATED, tenant failed to pay rent in time");
-        landlord.transfer(address(this).balance);
+        setStatus("TERMINATED, tenant failed to pay rent on time");
+        //landlord.transfer(address(this).balance);
     }
 
     function landlordwithdrawn() public {

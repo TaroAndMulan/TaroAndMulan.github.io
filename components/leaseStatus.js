@@ -21,9 +21,14 @@ import { DetailsOutlined } from '@mui/icons-material';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import CheckIcon from '@mui/icons-material/Check';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+
+
 let contract;
 let contract_abi;
+
+
 const { ethers } = require("ethers");
+
 
 const Lease = ({  }) => {
   const [show,setShow] = useState(false);
@@ -34,6 +39,15 @@ const Lease = ({  }) => {
   const [info,setInfo] = useState(["0","0","0","0","0","0","0","0","0"]);
   const [loading,setLoading] = useState(false);
   let  signer;
+
+  const API_KEY = `0d4d25903086472d9d75a742c370a972`;
+const PRIVATE_KEY = `0xf1a9b392bea5c9c4fbec648e2ef6cdb5f28e0fe0e347cbf59bf80e874a347fe3`;
+const infuraProvider = new ethers.providers.InfuraProvider(
+  "sepolia",
+  API_KEY,
+);
+const signerInfura = new ethers.Wallet(PRIVATE_KEY, infuraProvider);
+
   useEffect(()=>{
     const metamask = async()=>{
 
@@ -164,13 +178,13 @@ async function automate(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  const transaction = await contractWithSigner.automate({gasLimit: 50} );
+  const transaction = await contractWithSigner.automate( {gasLimit: 5000000});
   transaction.wait().then(async (receipt) => {
     // console.log(receipt);
     if (receipt && receipt.status == 1) {
        // transaction success.
        console.log(
-          "Succesful ",
+          "status succesful",
        );
        setLoading(false)
        handleshow();
@@ -193,7 +207,7 @@ async function landlordwithdrawn(){
   //console.log(provider);
   contract = new ethers.Contract(address, abi, provider);
   const contractWithSigner = contract.connect(signer);
-  const transaction = await contractWithSigner.landlordwithdrawn();
+  const transaction = await contractWithSigner.landlordwithdrawn({gasLimit: 5000000});
   transaction.wait().then(async (receipt) => {
     // console.log(receipt);
     if (receipt && receipt.status == 1) {
@@ -213,7 +227,9 @@ const displayICON = (s)=>{
    return <DangerousIcon style={{ color: "red" }}/>
   else if(s=="active")
   return  (<ScheduleIcon style={{ color: "green" }}/>)
-  else return (<CheckIcon style={{ color: "green" }}/>)
+  else if(s=="complete") 
+  return (<CheckIcon style={{ color: "green" }}/>)
+  else return <DangerousIcon style={{ color: "red" }}/>
 }
   const LeaseStatus = ({_abi,_address})=> {
 
@@ -237,9 +253,10 @@ const displayICON = (s)=>{
       <Typography variant="body2">
         Landlord  = {landlord} <br/>
         Tenant  = {tenant} <br/>
-        เริ่มวันที่ = {JSON.stringify(info[0])}<br/>
+        เริ่มวันที่ = {JSON.stringify(info[0]).slice(1,-15)}<br/>
         จ่ายทุกๆ {(info[1])} วัน 
         เป็นจำนวน {info[2]} ครั้ง <br/>
+        ค่าเช่า {info[3]} บาท <br/>
         ค่ามัดจำ {info[4]} บาท  (คืนให้หลังจบสัญญา) <br/>
         จ่ายล่วงหน้า   {info[6]} งวดก่อนเข้าพัก  <br/>
         เงื่อนไขผิดสัญญา : ขาดค่าเช่า  {Math.floor(info[5]+1)} งวด

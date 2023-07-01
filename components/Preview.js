@@ -65,7 +65,8 @@ const Preview = ({ template, VC, VCN, choice }) => {
   const tempformdata = formtitle.map((title) => {
     return " ";
   });
-
+  const [deployed,setDeployed] = useState()
+  const [isdeployed,setIsdeployed] = useState(false)
   const [formdata, setFormdata] = useState(tempformdata);
   const [preview, setPreview] = useState(template);
 
@@ -93,8 +94,12 @@ const Preview = ({ template, VC, VCN, choice }) => {
       },
       body: JSON.stringify(submit),
     });
-    console.log(resp);
-    console.log(resp.json());
+   // console.log(resp);
+    let temp = await resp.json()
+    setIsdeployed(true)
+    setDeployed(temp)
+    setOpen(false)
+    //console.log(resp.json()[address])
   }
   const Smartgenerate = () => {
     return (
@@ -355,90 +360,119 @@ const Preview = ({ template, VC, VCN, choice }) => {
                   <Grid item xs={6} justifyContent="center">
                     <Typography align="center">วันเริ่มต้นสัญญา</Typography>
                   </Grid>
-                  <Grid item xs={6}>
-                    <TextField
+                  <Grid item xs={4}>
+                    <TextField 
                       value={submit[0]}
-                      label="วันเริ่ม"
                       variant="outlined"
                       onChange={(e) => subhelp(0, e.target.value)}
                     />
+                   
+                  </Grid>
+                  <Grid item xs={2}>
+     
+                  <Typography align="center">(d/m/y)</Typography>
+                   
                   </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">
                       รายวัน / รายสัปดาห์/ รายเดือน / รายปี
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
-                    <TextField
+                  <Grid item xs={4}>
+                    <TextField 
                       value={submit[1]}
-                      label="ทุกๆ"
                       variant="outlined"
                       onChange={(e) => subhelp(1, e.target.value)}
                     />
                   </Grid>
-
+                  <Grid item xs={2}>
+     
+     <Typography align="center">(days/weeks/months)</Typography>
+      
+     </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">
                       ระยะเวลาสัญญา (จำนวนครั้งที่ต้องจ่าย)
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <TextField
                       value={submit[2]}
-                      label="งวด"
                       variant="outlined"
                       onChange={(e) => subhelp(2, e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+     
+     <Typography align="center">ครั้ง</Typography>
+      
+     </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">ค่าเช่างวดละ</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <TextField
                       value={submit[3]}
-                      label="บาท"
                       variant="outlined"
                       onChange={(e) => subhelp(3, e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+     
+     <Typography align="center">บาท</Typography>
+      
+     </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">ค่าแรกเข้า</Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <TextField
                       value={submit[4]}
-                      label="บาท"
                       variant="outlined"
                       onChange={(e) => subhelp(4, e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+     
+     <Typography align="center">บาท</Typography>
+      
+     </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">
                       จำนวนครั้งที่ขาดจ่ายได้สูงสุด
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <TextField
                       value={submit[5]}
-                      label="ครั้ง"
+                     
                       variant="outlined"
                       onChange={(e) => subhelp(5, e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+     
+     <Typography align="center">ครั้ง</Typography>
+      
+     </Grid>
                   <Grid item xs={6}>
                     <Typography align="center">
-                      จ่ายล่วงหน้าก่อนเข้าพัก
+                      ค่ามัดจำ (จ่ายล่วงหน้ากี่ครั้งก่อนเข้าพัก)
                     </Typography>
                   </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <TextField
                       value={submit[6]}
-                      label="ครั้ง"
                       variant="outlined"
                       onChange={(e) => subhelp(6, e.target.value)}
                     />
                   </Grid>
+                  <Grid item xs={2}>
+     
+     <Typography align="center">ครั้ง</Typography>
+      
+     </Grid>
                 </Grid>
               </Box>
 
@@ -465,6 +499,28 @@ const Preview = ({ template, VC, VCN, choice }) => {
             
             </CardActions>
           </Card>
+        </>
+      </Backdrop>
+
+
+
+
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          mx: "auto",
+        }}
+        open={isdeployed}
+        onClick={()=>setIsdeployed(false)}
+      >
+        <>
+        <Card sx={{ minWidth: 275, width: 0.5 }}>
+        <CardContent>
+        <Typography>Contract Succesfully Deployed !!</Typography>
+        </CardContent>
+        </Card>
+   
         </>
       </Backdrop>
     </>
