@@ -1,29 +1,25 @@
-UNDER CONSTRUCTION 
-
-UNDER CONSTRUCTION
-
-UNDER CONSTRUCTION
-
-UNDER CONSTRUCTION
-
-```
-
+git clone https://github.com/TaroAndMulan/VCsignAlpha.git
+cd VCsignAlpha
+npm install
 npm run dev
-
 ngrok http 8080
 
+''' 
 Issuer page
 
 > [ngrok_url]/ 
 
-Sign page 
+Draft and Sign a contract 
 
 > [ngrok_url]/draft
 
-Doc authentication page 
+Document authentication page 
 
 > [ngrok_url]/verify
 
+Lease status page
+
+> [ngrok_url]/lease
 ```
 
 
