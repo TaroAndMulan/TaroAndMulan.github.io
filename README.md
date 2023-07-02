@@ -1,8 +1,13 @@
 git clone https://github.com/TaroAndMulan/VCsignAlpha.git
+
 cd VCsignAlpha
+
 npm install
+
 npm run dev
+
 ngrok http 8080
+
 
 ''' 
 Issuer page
