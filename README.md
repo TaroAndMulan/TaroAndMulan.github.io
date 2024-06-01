@@ -1,5 +1,5 @@
 # Master Thesis: decentralized application for signing and enforcing legal contract (concept Demo not for production)
-[MasterThesisPDF](/approved_thesis_yosnai_Redacted.pdf)
+[MasterThesisPDF](/thesis.pdf)
 I developed this project as part of my master thesis. This application allows users to creat and sign contracts or documents online with their decentralized identity (DID) signature such as Bitcoin or Ethereum private key. The signer can extracted information from their decentralized digital ID, i.e. verifiable credential (VC), and insert it into the contract. While the document itself is never exposed to the public, the information inside the contract and the signed signature can still be verified and authenticated by anyone directly from the blockchain. Once the contract is signed, the terms of the contract are translated into smart contract and deployed to Ethereum blockchain for enforcement. For more information, refer to the pdf file link aboved.
 
 ## example use case : LEASE AGREEMENT
