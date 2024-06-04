@@ -66,7 +66,7 @@ text=veriﬁed data), is not arbitrarily forge to look like one. (Anyone can cre
 ![alt text](img/image-10.png)
 
 
-## Overview of Application 
+## Web Application Overview
 
 ### App Functionality
 1.	Allow users to authenticate each other using veriﬁable credentials.
