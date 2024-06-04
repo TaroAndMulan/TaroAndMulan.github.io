@@ -91,7 +91,7 @@ scenario: The tenant want to rent the aparment.
 6. The tenant can pay the rent in cryptocurrency manually on the blockchain himself, or through our web application.
 7. If the tenant can not fullfil the terms of the contract, the smart contract will forcefully terminate the contract and notify the landlord.
 
-## Application Explantion
+## Overview of Application 
 
 >web application structure
 
