@@ -65,7 +65,10 @@ text=veriﬁed data), is not arbitrarily forge to look like one. (Anyone can cre
 
 ![alt text](img/image-10.png)
 
-## App Functionality
+
+## Overview of Application 
+
+### App Functionality
 1.	Allow users to authenticate each other using veriﬁable credentials.
 2.	Allow users to draft a contract from scratch or from a provided template.
 3.	Allow users to sign a contract with infomation from the verifiable credential.
@@ -74,25 +77,9 @@ text=veriﬁed data), is not arbitrarily forge to look like one. (Anyone can cre
 6.	Allow users to enforce the term of the lease agreement with smart contracts.
 7.	Allow users to view and interact with the deployed smart contracts.
 8.	Allow tenants to pay rent and landlords to receive money in cryptocurrency.
-9.	Allow tenant and landlord to use a smart contract as an escrow. 
+9.	Allow tenant and landlord to use a smart contract as an escrow.
 
-
-## example use case : LEASE AGREEMENT
-scenario: The tenant want to rent the aparment.
-### prerequisite for both party
-1. The tenant and the landlord create their decentralized identities on a blockchain of their choice. (For our project, we support DIDs from ION, a layer 2 Bitcoin blockchain.)
-2. The tenant and the landlord obtain Verifiable Credentials from a trusted issuer. The verifiable credentials can be about anything, for example, if a tenant want to proof that he is a student when he signs a contract, then he need a verifiable credentials that was issues by the university that can verify his student status. 
-### signing
-1. Both parties upload their Verifiable credentials to the application (our demo only support VC from microsoft entra)
-2. The application will validated these verifiable credentials with the issuer. If verified, it can be inserted into the contract.
-3. For example, if the tenant uses their national ID verifiable credential, then he can insert his date of birth into the contract document. 
-4. Once both parties finish drafting the contract, the application will ask them to signed the contract with their decentralized identity private key.
-5. The term of the contract, for example, lease duration, montly payment, deposite fee, etc., will be published on the Ethereum blockchain as a smart contract.
-6. The tenant can pay the rent in cryptocurrency manually on the blockchain himself, or through our web application.
-7. If the tenant can not fullfil the terms of the contract, the smart contract will forcefully terminate the contract and notify the landlord.
-
-## Overview of Application 
-
+10.	
 >web application structure
 
 ![alt text](img/imagezz.png)
@@ -193,6 +180,20 @@ The tenant can pay rent from this page. Payment with cryptocurrency is supported
 
 ![alt text](img/image-14a.png)
 
+
+## example use case : LEASE AGREEMENT
+scenario: The tenant want to rent the aparment.
+### prerequisite for both party
+1. The tenant and the landlord create their decentralized identities on a blockchain of their choice. (For our project, we support DIDs from ION, a layer 2 Bitcoin blockchain.)
+2. The tenant and the landlord obtain Verifiable Credentials from a trusted issuer. The verifiable credentials can be about anything, for example, if a tenant want to proof that he is a student when he signs a contract, then he need a verifiable credentials that was issues by the university that can verify his student status. 
+### signing
+1. Both parties upload their Verifiable credentials to the application (our demo only support VC from microsoft entra)
+2. The application will validated these verifiable credentials with the issuer. If verified, it can be inserted into the contract.
+3. For example, if the tenant uses their national ID verifiable credential, then he can insert his date of birth into the contract document. 
+4. Once both parties finish drafting the contract, the application will ask them to signed the contract with their decentralized identity private key.
+5. The term of the contract, for example, lease duration, montly payment, deposite fee, etc., will be published on the Ethereum blockchain as a smart contract.
+6. The tenant can pay the rent in cryptocurrency manually on the blockchain himself, or through our web application.
+7. If the tenant can not fullfil the terms of the contract, the smart contract will forcefully terminate the contract and notify the landlord.
 
 ### INSTALLATION
 ```
