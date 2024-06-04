@@ -79,7 +79,6 @@ text=veriﬁed data), is not arbitrarily forge to look like one. (Anyone can cre
 8.	Allow tenants to pay rent and landlords to receive money in cryptocurrency.
 9.	Allow tenant and landlord to use a smart contract as an escrow.
 
-10.	
 >web application structure
 
 ![alt text](img/imagezz.png)
